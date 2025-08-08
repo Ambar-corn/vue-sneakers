@@ -10,7 +10,7 @@ import CartItemList from './CartItemList.vue'
       <DrawerHead />
       <CartItemList />
 
-      <div class="flex flex-col gap-4 mb-6">
+      <div class="flex flex-col gap-4 my-7">
         <div class="flex gap-2">
           <span>Итого:</span>
           <div class="flex-1 border-b border-dashed"></div>
@@ -23,7 +23,8 @@ import CartItemList from './CartItemList.vue'
         </div>
       </div>
       <button
-        class="transition bg-green-500 w-full rounded-xl py-3 hover:bg-green-600 active:bg-green-700"
+        disabled=""
+        class="transition bg-green-500 w-full rounded-xl py-3 disabled:bg-slate-300 hover:bg-green-600 active:bg-green-700"
       >
         Оформить заказ
       </button>

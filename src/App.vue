@@ -1,7 +1,38 @@
 <script setup>
+import { onMounted, ref, watch } from 'vue'
+import axios from 'axios'
+
 import Header from './components/Header.vue'
 import CardList from './components/CardList.vue'
 import Drawer from './components/Drawer.vue'
+
+const items = ref([])
+onMounted(async () => {
+  try {
+    const { data } = await axios.get('https://b561fe78d0163fe1.mokky.dev/sneakers')
+    items.value = data
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+const sortBy = ref('')
+const searchQuery = ref('')
+
+watch(sortBy, async () => {
+  try {
+    const { data } = await axios.get(
+      'https://b561fe78d0163fe1.mokky.dev/sneakers?sortBy=' + sortBy.value,
+    )
+    items.value = data
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+const onChangeSelect = (event) => {
+  sortBy.value = event.target.value
+}
 </script>
 
 <template>
@@ -14,10 +45,13 @@ import Drawer from './components/Drawer.vue'
         <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
 
         <div class="flex items-center gap-4">
-          <select class="bg-teal-600 py-1.5 px-3 border rounded-md outline-none">
-            <option class="border rounded-md">По названию</option>
-            <option class="border rounded-md">По цене (дешевые)</option>
-            <option class="border rounded-md">По цене (дорогие)</option>
+          <select
+            @change="onChangeSelect"
+            class="bg-teal-600 py-1.5 px-3 border rounded-md outline-none"
+          >
+            <option value="name" class="border rounded-md">По названию</option>
+            <option value="price" class="border rounded-md">По цене (дешевые)</option>
+            <option value="-price" class="border rounded-md">По цене (дорогие)</option>
           </select>
 
           <div class="relative">
@@ -30,8 +64,10 @@ import Drawer from './components/Drawer.vue'
           </div>
         </div>
       </div>
+      <div class="mt-10">
+        <CardList :items="items" />
+      </div>
     </div>
-    <CardList />
   </div>
 </template>
 

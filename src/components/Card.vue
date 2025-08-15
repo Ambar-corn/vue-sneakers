@@ -1,6 +1,4 @@
 <script setup>
-import { inject } from 'vue'
-
 defineProps({
   id: Number,
   title: String,

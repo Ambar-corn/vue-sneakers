@@ -9,15 +9,17 @@ import Drawer from './components/Drawer.vue'
 const items = ref([])
 
 const filters = reactive({
-  sortBy: 'title',
+  sortBy: 'name',
   searchQuery: '',
 })
 
-const onChangeSelect = (event) => {
+const onChangeSelect = async (event) => {
   filters.sortBy = event.target.value
+  await fetchFavorites()
 }
-const onChangeSearchInput = (event) => {
+const onChangeSearchInput = async (event) => {
   filters.searchQuery = event.target.value
+  await fetchFavorites()
 }
 
 const fetchFavorites = async () => {
@@ -40,11 +42,46 @@ const fetchFavorites = async () => {
   }
 }
 
-const addToFavorite = async (item) => {
-  item.isFavorite = !item.isFavorite
+const deleteAll = async () => {
+  try {
+    const { data: favorites } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
+
+    for (const f of favorites) {
+      await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${f.id}`)
+    }
+
+    items.value = items.value.map((item) => ({
+      ...item,
+      isFavorite: false,
+      favoriteId: undefined,
+    }))
+  } catch (err) {
+    console.log(err)
+  }
 }
 
-provide('addToFavorite', addToFavorite)
+const addToFavorite = async (item) => {
+  try {
+    if (!item.isFavorite) {
+      const obj = {
+        parentId: item.id,
+      }
+      item.isFavorite = true
+      // console.log(item)
+      const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/favorites', obj)
+      items.favoriteId = data.id
+      // axios.post(`https://b561fe78d0163fe1.mokky.dev/sneakers/${parentId}`)
+    } else {
+      item.isFavorite = false
+      await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${item.favoriteId}`)
+      // item.favoriteId = null
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// provide('addToFavorite', addToFavorite)
 const fetchItems = async () => {
   try {
     const params = {
@@ -57,7 +94,12 @@ const fetchItems = async () => {
     const { data } = await axios.get('https://b561fe78d0163fe1.mokky.dev/sneakers', {
       params,
     })
-    items.value = data.map((obj) => ({ ...obj, isFavorite: false, isAdded: false }))
+    items.value = data.map((obj) => ({
+      ...obj,
+      isFavorite: false,
+      favoriteId: null,
+      isAdded: false,
+    }))
   } catch (err) {
     console.log(err)
   }
@@ -68,7 +110,7 @@ onMounted(async () => {
   await fetchFavorites()
 })
 
-watch(filters, fetchItems)
+watch(filters, fetchItems, onChangeSelect)
 </script>
 
 <template>
@@ -79,7 +121,9 @@ watch(filters, fetchItems)
     <div class="p-10">
       <div class="flex justify-between items-center">
         <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
-
+        <div class="border-8 border-red-700 bg-orange-700 rounded-md">
+          <button @click="deleteAll()">Сненси меня!!!</button>
+        </div>
         <div class="flex items-center gap-4">
           <select
             @change="onChangeSelect"

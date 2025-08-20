@@ -8,6 +8,15 @@ import Drawer from './components/Drawer.vue'
 
 const items = ref([])
 
+const drawerOpen = ref(false)
+
+const openDrawer = () => {
+  drawerOpen.value = true
+}
+
+const closeDrawer = () => {
+  drawerOpen.value = false
+}
 const filters = reactive({
   sortBy: 'name',
   searchQuery: '',
@@ -15,11 +24,9 @@ const filters = reactive({
 
 const onChangeSelect = async (event) => {
   filters.sortBy = event.target.value
-  await fetchFavorites()
 }
 const onChangeSearchInput = async (event) => {
   filters.searchQuery = event.target.value
-  await fetchFavorites()
 }
 
 const fetchFavorites = async () => {
@@ -69,7 +76,7 @@ const addToFavorite = async (item) => {
       item.isFavorite = true
       // console.log(item)
       const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/favorites', obj)
-      items.favoriteId = data.id
+      item.favoriteId = data.id
       // axios.post(`https://b561fe78d0163fe1.mokky.dev/sneakers/${parentId}`)
     } else {
       item.isFavorite = false
@@ -100,6 +107,7 @@ const fetchItems = async () => {
       favoriteId: null,
       isAdded: false,
     }))
+    await fetchFavorites()
   } catch (err) {
     console.log(err)
   }
@@ -110,14 +118,16 @@ onMounted(async () => {
   await fetchFavorites()
 })
 
-watch(filters, fetchItems, onChangeSelect)
+watch(filters, fetchItems)
+
+provide('cartActions', { closeDrawer, openDrawer })
 </script>
 
 <template>
   <div class="bg-teal-600 w-4/5 m-auto rounded-xl shadow-xl mt-20">
-    <!-- <Drawer /> -->
+    <Drawer v-if="drawerOpen" />
 
-    <Header />
+    <Header @open-drawer="openDrawer" />
     <div class="p-10">
       <div class="flex justify-between items-center">
         <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
@@ -146,7 +156,7 @@ watch(filters, fetchItems, onChangeSelect)
         </div>
       </div>
       <div class="mt-10">
-        <CardList :items="items" @addToFavorite="addToFavorite" />
+        <CardList :items="items" @add-to-favorite="addToFavorite" />
       </div>
     </div>
   </div>

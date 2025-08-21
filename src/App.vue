@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref, provide, watch } from 'vue'
+import { onMounted, reactive, ref, provide, watch, computed } from 'vue'
 import axios from 'axios'
 
 import Header from './components/Header.vue'
@@ -7,6 +7,10 @@ import CardList from './components/CardList.vue'
 import Drawer from './components/Drawer.vue'
 
 const items = ref([])
+
+const cart = ref([])
+
+const totalPrice = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0))
 
 const drawerOpen = ref(false)
 
@@ -88,6 +92,25 @@ const addToFavorite = async (item) => {
   }
 }
 
+const addToCart = (item) => {
+  cart.value.push(item)
+  item.isAdded = true
+}
+
+const removeFromCart = (item) => {
+  cart.value.splice(cart.value.indexOf(item), 1)
+  item.isAdded = false
+}
+
+const onClickAddPlus = (item) => {
+  if (!item.isAdded) {
+    addToCart(item)
+  } else {
+    removeFromCart(item)
+  }
+  console.log(cart)
+}
+
 // provide('addToFavorite', addToFavorite)
 const fetchItems = async () => {
   try {
@@ -118,16 +141,16 @@ onMounted(async () => {
   await fetchFavorites()
 })
 
-watch(filters, fetchItems)
+watch(filters, fetchItems, totalPrice)
 
-provide('cartActions', { closeDrawer, openDrawer })
+provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
 </script>
 
 <template>
   <div class="bg-teal-600 w-4/5 m-auto rounded-xl shadow-xl mt-20">
-    <Drawer v-if="drawerOpen" />
+    <Drawer :total-price="totalPrice" v-if="drawerOpen" />
 
-    <Header @open-drawer="openDrawer" />
+    <Header :total-price="totalPrice" @open-drawer="openDrawer" />
     <div class="p-10">
       <div class="flex justify-between items-center">
         <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
@@ -156,7 +179,7 @@ provide('cartActions', { closeDrawer, openDrawer })
         </div>
       </div>
       <div class="mt-10">
-        <CardList :items="items" @add-to-favorite="addToFavorite" />
+        <CardList :items="items" @add-to-favorite="addToFavorite" @add-to-cart="onClickAddPlus" />
       </div>
     </div>
   </div>

@@ -12,6 +12,10 @@ const cart = ref([])
 
 const totalPrice = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0))
 
+const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
+
+const isCreatingOrder = ref(false)
+
 const drawerOpen = ref(false)
 
 const openDrawer = () => {
@@ -102,13 +106,45 @@ const removeFromCart = (item) => {
   item.isAdded = false
 }
 
+const createOrder = async () => {
+  try {
+    isCreatingOrder.value = true
+
+    const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/orders', {
+      items: cart.value,
+      totalPrice: totalPrice.value,
+    })
+    cart.value = []
+
+    return data
+  } catch (err) {
+    console.log(err)
+  } finally {
+    isCreatingOrder.value = false
+  }
+}
+
+const deleteOrders = async () => {
+  try {
+    const { data: orders } = await axios.get('https://b561fe78d0163fe1.mokky.dev/orders')
+
+    for (const item of orders) {
+      await axios.delete(`https://b561fe78d0163fe1.mokky.dev/orders/${item.id}`)
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const onClickAddPlus = (item) => {
   if (!item.isAdded) {
     addToCart(item)
   } else {
     removeFromCart(item)
   }
-  console.log(cart)
+  // console.log(cart)
+  // console.log(vatPrice.value)
+  // console.log(totalPrice)
 }
 
 // provide('addToFavorite', addToFavorite)
@@ -141,14 +177,28 @@ onMounted(async () => {
   await fetchFavorites()
 })
 
-watch(filters, fetchItems, totalPrice)
+watch(filters, fetchItems)
+
+watch(
+  cart,
+  () => {
+    items.value = items.value.map((item) => ({ ...item, isAdded: false }))
+  },
+  { deep: true },
+)
 
 provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
 </script>
 
 <template>
   <div class="bg-teal-600 w-4/5 m-auto rounded-xl shadow-xl mt-20">
-    <Drawer :total-price="totalPrice" v-if="drawerOpen" />
+    <Drawer
+      :total-price="totalPrice"
+      :vat-price="vatPrice"
+      v-if="drawerOpen"
+      @create-order="createOrder"
+      :is-creating-order="isCreatingOrder"
+    />
 
     <Header :total-price="totalPrice" @open-drawer="openDrawer" />
     <div class="p-10">
@@ -156,6 +206,9 @@ provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
         <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
         <div class="border-8 border-red-700 bg-orange-700 rounded-md">
           <button @click="deleteAll()">Сненси меня!!!</button>
+        </div>
+        <div class="border-8 border-red-700 bg-orange-700 rounded-md">
+          <button @click="deleteOrders()">Сненси и меня пожалуйста</button>
         </div>
         <div class="flex items-center gap-4">
           <select

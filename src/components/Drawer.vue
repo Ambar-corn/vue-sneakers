@@ -1,9 +1,25 @@
 <script setup>
 import DrawerHead from './DrawerHead.vue'
 import CartItemList from './CartItemList.vue'
+import { computed } from 'vue'
 
-defineProps({
+const emit = defineEmits(['createOrder'])
+
+const props = defineProps({
   totalPrice: Number,
+  vatPrice: Number,
+  createOrder: Function,
+  isCreatingOrder: Boolean,
+})
+
+const buttonDisabled = computed(() => {
+  if (props.isCreatingOrder) {
+    return true
+  } else if (props.totalPrice) {
+    return false
+  } else {
+    return true
+  }
 })
 </script>
 
@@ -18,17 +34,18 @@ defineProps({
         <div class="flex gap-2">
           <span>Итого:</span>
           <div class="flex-1 border-b border-dashed"></div>
-          <span>{{ totalPrice }}₽ </span>
+          <span>{{ totalPrice }} ₽ </span>
         </div>
         <div class="flex gap-2">
           <span>Налог 5%:</span>
           <div class="flex-1 border-b border-dashed"></div>
-          <span>900 ₽ </span>
+          <span>{{ vatPrice }} ₽ </span>
         </div>
       </div>
       <button
-        disabled=""
-        class="transition bg-green-500 w-full rounded-xl py-3 disabled:bg-slate-300 hover:bg-green-600 active:bg-green-700"
+        :disabled="buttonDisabled"
+        @click="emit('createOrder')"
+        class="transition bg-green-500 w-full rounded-xl py-3 disabled:bg-slate-300 hover:bg-green-600 active:bg-green-700 cursor-crosshair"
       >
         Оформить заказ
       </button>

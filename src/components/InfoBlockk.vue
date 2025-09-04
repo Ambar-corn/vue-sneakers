@@ -8,8 +8,8 @@ defineProps({
 
 <template>
   <div class="flex flex-col items-center text-center gap-y-2 w-72 mx-auto">
-    <img height="80" width="80" :src="imageUrl" alt="Box" />
-    <h2>{{ title }}</h2>
-    <p class="text-slate-400">{{ description }}</p>
+    <img height="120" width="120" :src="imageUrl" alt="Box" />
+    <h2 class="text-black">{{ title }}</h2>
+    <p class="">{{ description }}</p>
   </div>
 </template>

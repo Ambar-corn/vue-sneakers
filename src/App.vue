@@ -5,6 +5,7 @@ import axios from 'axios'
 import Header from './components/Header.vue'
 import CardList from './components/CardList.vue'
 import Drawer from './components/Drawer.vue'
+import { stringify } from 'postcss'
 
 const items = ref([])
 
@@ -173,8 +174,16 @@ const fetchItems = async () => {
 }
 
 onMounted(async () => {
+  const loclaCart = localStorage.getItem('cart')
+  cart.value = loclaCart ? JSON.parse(loclaCart) : []
+
   await fetchItems()
   await fetchFavorites()
+
+  items.value = items.value.map((item) => ({
+    ...item,
+    isAdded: cart.value.some((cartItem) => cartItem.id === item.id),
+  }))
 })
 
 watch(filters, fetchItems)
@@ -182,6 +191,14 @@ watch(filters, fetchItems)
 watch(cart, () => {
   items.value = items.value.map((item) => ({ ...item, isAdded: false }))
 })
+
+watch(
+  cart,
+  () => {
+    localStorage.setItem('cart', JSON.stringify(cart.value))
+  },
+  { deep: true },
+)
 
 provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
 </script>

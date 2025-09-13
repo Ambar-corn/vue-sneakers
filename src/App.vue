@@ -1,9 +1,6 @@
 <script setup>
 import { ref, provide, watch, computed } from 'vue'
-import axios from 'axios'
-import { stringify } from 'postcss'
 
-import Home from './pages/Home.vue'
 import Header from './components/Header.vue'
 // import CardList from './components/CardList.vue'
 import Drawer from './components/Drawer.vue'
@@ -13,8 +10,6 @@ const cart = ref([])
 const totalPrice = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0))
 
 const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
-
-const isCreatingOrder = ref(false)
 
 const drawerOpen = ref(false)
 
@@ -34,24 +29,6 @@ const addToCart = (item) => {
 const removeFromCart = (item) => {
   cart.value.splice(cart.value.indexOf(item), 1)
   item.isAdded = false
-}
-
-const createOrder = async () => {
-  try {
-    isCreatingOrder.value = true
-
-    const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/orders', {
-      items: cart.value,
-      totalPrice: totalPrice.value,
-    })
-    cart.value = []
-
-    return data
-  } catch (err) {
-    console.log(err)
-  } finally {
-    isCreatingOrder.value = false
-  }
 }
 
 // provide('addToFavorite', addToFavorite)

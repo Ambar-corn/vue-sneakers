@@ -15,8 +15,8 @@ const emit = defineEmits(['openDrawer'])
           <h2 class="text-white text-xl font-bold uppercase">Vue Sneakers</h2>
           <p class="text-white">Магазин лучших кросовок</p>
         </div>
-      </div></router-link
-    >
+      </div>
+    </router-link>
     <nav class="flex items-center gap-10">
       <ul>
         <li @click="emit('openDrawer')" class="flex items-center cursor-pointer gap-3">
@@ -25,10 +25,12 @@ const emit = defineEmits(['openDrawer'])
         </li>
       </ul>
       <ul>
-        <li class="flex items-center cursor-pointer gap-3">
-          <img src="/heart.svg" alt="Heart" class="" />
-          <span class="text-white hover:text-black">Закладки</span>
-        </li>
+        <router-link to="/favorites">
+          <li class="flex items-center cursor-pointer gap-3">
+            <img src="/heart.svg" alt="Heart" class="" />
+            <span class="text-white hover:text-black">Закладки</span>
+          </li>
+        </router-link>
       </ul>
       <ul>
         <li class="flex items-center cursor-pointer gap-3">

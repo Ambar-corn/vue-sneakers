@@ -3,6 +3,7 @@ import { reactive, watch, ref, onMounted } from 'vue'
 import axios from 'axios'
 import CardList from '../components/CardList.vue'
 import { inject } from 'vue'
+import debounce from 'lodash.debounce'
 
 const { cart, addToCart, removeFromCart } = inject('cart')
 
@@ -13,12 +14,12 @@ const filters = reactive({
   searchQuery: '',
 })
 
-const onChangeSelect = async (event) => {
+const onChangeSelect = (event) => {
   filters.sortBy = event.target.value
 }
-const onChangeSearchInput = async (event) => {
+const onChangeSearchInput = debounce((event) => {
   filters.searchQuery = event.target.value
-}
+}, 500)
 
 const deleteAll = async () => {
   try {
@@ -54,13 +55,13 @@ const addToFavorite = async (item) => {
   try {
     if (!item.isFavorite) {
       const obj = {
-        parentId: item.id,
+        sneaker_id: item.id,
       }
       item.isFavorite = true
       // console.log(item)
       const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/favorites', obj)
       item.favoriteId = data.id
-      // axios.post(`https://b561fe78d0163fe1.mokky.dev/sneakers/${parentId}`)
+      // axios.post(`https://b561fe78d0163fe1.mokky.dev/sneakers/${sneaker_id}`)
     } else {
       item.isFavorite = false
       await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${item.favoriteId}`)
@@ -86,7 +87,7 @@ const fetchFavorites = async () => {
   try {
     const { data: favorites } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
     items.value = items.value.map((item) => {
-      const favorite = favorites.find((favorite) => favorite.parentId === item.id)
+      const favorite = favorites.find((favorite) => favorite.sneaker_id === item.id)
       if (!favorite) {
         return item
       }

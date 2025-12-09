@@ -21,7 +21,11 @@ defineProps({
       alt="Like-2"
       class="absolute top-8 left-8"
     />
-    <img :src="imageUrl" alt="Sneaker" class="bg-gradient-to-r from-violet-500 to-fuchsia-500" />
+    <img
+      :src="imageUrl"
+      alt="Sneaker"
+      class="bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-3xl"
+    />
     <p class="mt-2">{{ title }}</p>
     <div class="flex justify-between mt-5">
       <div class="flex flex-col">

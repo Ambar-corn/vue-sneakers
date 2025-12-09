@@ -33,6 +33,17 @@ const removeFromCart = (item) => {
 
 // provide('addToFavorite', addToFavorite)
 
+function isTouchDevice() {
+  try {
+    document.createEvent('TouchEvent')
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+sessionStorage.setItem('isMobile', isTouchDevice())
+
 watch(
   cart,
   () => {
@@ -45,7 +56,8 @@ provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
 </script>
 
 <template>
-  <div class="bg-teal-600 w-4/5 m-auto rounded-xl shadow-xl mt-20">
+  <!--? -4/5  -->
+  <div class="bg-teal-600 w-full rounded-xl shadow-xl">
     <Drawer
       :total-price="totalPrice"
       :vat-price="vatPrice"

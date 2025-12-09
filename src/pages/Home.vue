@@ -149,12 +149,12 @@ watch(cart, () => {
 </script>
 
 <template>
-  <div class="flex justify-between items-center">
+  <div class="flex justify-between items-center max-[1000px]:flex-col">
     <h2 class="text-3xl font-bold mb-8">Все кроссовки</h2>
-    <div class="border-8 border-red-700 bg-orange-700 rounded-md">
+    <div class="border-8 border-red-700 bg-orange-700 rounded-md hidden">
       <button @click="deleteAll()">Сненси меня!!!</button>
     </div>
-    <div class="border-8 border-red-700 bg-orange-700 rounded-md">
+    <div class="border-8 border-red-700 bg-orange-700 rounded-md hidden">
       <button @click="deleteOrders()">Сненси и меня пожалуйста</button>
     </div>
     <div class="flex items-center gap-4">

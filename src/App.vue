@@ -2,7 +2,6 @@
 import { ref, provide, watch, computed } from 'vue'
 
 import Header from './components/Header.vue'
-// import CardList from './components/CardList.vue'
 import Drawer from './components/Drawer.vue'
 
 const cart = ref([])
@@ -15,10 +14,12 @@ const drawerOpen = ref(false)
 
 const openDrawer = () => {
   drawerOpen.value = true
+  document.body.classList.add('overflow-hidden')
 }
 
 const closeDrawer = () => {
   drawerOpen.value = false
+  document.body.classList.remove('overflow-hidden')
 }
 
 const addToCart = (item) => {
@@ -61,9 +62,8 @@ provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
     <Drawer
       :total-price="totalPrice"
       :vat-price="vatPrice"
-      v-if="drawerOpen"
-      @create-order="createOrder"
-      :is-creating-order="isCreatingOrder"
+      v-show="drawerOpen"
+      :drawer-open="drawerOpen"
     />
 
     <Header :total-price="totalPrice" @open-drawer="openDrawer" />

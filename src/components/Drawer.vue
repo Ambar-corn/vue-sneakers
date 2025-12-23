@@ -1,24 +1,32 @@
 <script setup>
-import { ref, watch, computed, inject } from 'vue'
+import { ref, computed, inject } from 'vue'
 import axios from 'axios'
 import DrawerHead from './DrawerHead.vue'
 import CartItemList from './CartItemList.vue'
 import InfoBlock from './InfoBlockk.vue'
-
-// const emit = defineEmits(['createOrder'])
+import { useClickOutside } from '@/composables/useClickOutside'
 
 const isCreating = ref(false)
 
 const orderId = ref(null)
 
+const drawerRef = ref(null)
+
 const props = defineProps({
   totalPrice: Number,
   vatPrice: Number,
-  isCreating: Boolean,
+  isCreatingOrder: Boolean,
+  drawerOpen: Boolean,
+})
+
+useClickOutside(drawerRef, () => {
+  if (props.drawerOpen) {
+    closeDrawer()
+  }
 })
 
 const buttonDisabled = computed(() => {
-  if (props.isCreating) {
+  if (props.isCreatingOrder) {
     return true
   } else if (props.totalPrice) {
     return false
@@ -28,7 +36,6 @@ const buttonDisabled = computed(() => {
 })
 
 const { cart, closeDrawer } = inject('cart')
-
 // const cartIsEmpty = computed(() => cart.value.lenght === 0)
 
 const createOrder = async () => {
@@ -53,8 +60,13 @@ const createOrder = async () => {
 
 <template>
   <div>
-    <div class="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-70"></div>
-    <div class="bg-teal-600 w-96 h-full fixed right-0 top-0 z-20 p-8">
+    <div
+      class="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-70 transition duration-1000"
+    ></div>
+    <div
+      ref="drawerRef"
+      class="bg-teal-600 w-2/5 h-full fixed right-0 top-0 z-50 p-10 transition duration-1000"
+    >
       <DrawerHead />
 
       <div v-if="!totalPrice || orderId" class="flex h-full items-center">

@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { provide, ref, watch } from 'vue'
 import { onMounted, onUnmounted } from 'vue'
+import { useClickOutside } from '../composables/useClickOutside'
 
 defineProps({
   totalPrice: Number,
@@ -18,51 +19,33 @@ const profileRef = ref(null)
 
 const burgerRef = ref(null)
 
+useClickOutside(burgerRef, (event) => {
+  handleBurgerOutside(event)
+})
+useClickOutside(profileRef, () => {
+  isProfileOpen.value = false
+})
+
+function handleBurgerOutside(event) {
+  if (isBurgerOpen.value && !isProfileOpen.value && !profileRef.value.contains(event.target)) {
+    isBurgerOpen.value = false
+    document.body.classList.remove('overflow-hidden')
+  }
+}
+
+function onClickCart() {
+  emit('openDrawer')
+
+  if (isBurgerOpen.value) {
+    isBurgerOpen.value = false
+  }
+}
+
 function toggleProfile() {
   if (isMobile) {
     isProfileOpen.value = !isProfileOpen.value
   }
 }
-
-watch([isProfileOpen, isBurgerOpen], ([menu, burger]) => {
-  if (menu) {
-    window.addEventListener('click', handleClickOutside)
-  } else {
-    window.removeEventListener('click', handleClickOutside)
-  }
-
-  if (burger && !menu) {
-    window.addEventListener('click', otdel)
-  } else {
-    window.removeEventListener('click', otdel)
-  }
-})
-
-function handleClickOutside(e) {
-  // если клик не по элементу меню — закрываем
-  const target = e.target
-
-  const profile = profileRef.value
-
-  if (profile && !profile.contains(target)) {
-    isProfileOpen.value = false
-  }
-}
-
-function otdel(e) {
-  const target = e.target
-
-  const burger = burgerRef.value
-
-  const profile = profileRef.value
-  if (burger && !burger.contains(target) && profile && !profile.contains(target)) {
-    isBurgerOpen.value = false
-
-    document.body.classList.remove('overflow-hidden')
-  }
-}
-
-//! Изменить название
 
 function toggleBurger() {
   isBurgerOpen.value = !isBurgerOpen.value
@@ -72,10 +55,6 @@ function toggleBurger() {
     document.body.classList.remove('overflow-hidden')
   }
 }
-
-onUnmounted(() => {
-  window.removeEventListener('click', handleClickOutside)
-})
 </script>
 
 <template>
@@ -94,7 +73,7 @@ onUnmounted(() => {
       :class="{ 'max-lg:left-0 ': isBurgerOpen }"
     >
       <ul>
-        <li @click="emit('openDrawer')" class="flex items-center cursor-pointer gap-3">
+        <li @click.stop="onClickCart()" class="flex items-center cursor-pointer gap-3">
           <img src="/cart.svg" alt="Cart" class="" />
           <span class="text-white hover:text-black">{{ totalPrice }} руб.</span>
         </li>
@@ -146,11 +125,10 @@ onUnmounted(() => {
         <!-- </div> -->
       </ul>
     </nav>
-    <!--Типа menu__icon-->
     <div
       ref="burgerRef"
       @click="toggleBurger()"
-      class="hidden max-lg:block max-lg:z-50 max-lg:relative max-lg:w-8 max-lg:h-[18px] max-lg:cursor-pointer after:content-[''] after:left-0 after:absolute after:h-[2px] after:w-full after:bg-white afer:top-0 after:transition-all after:ease-in-out after:duration-300 before:content-[''] before:left-0 before:absolute before:h-[2px] before:w-full before:bg-white before:bottom-0 before:transition-all before:ease-in-out before:duration-300"
+      class="hidden max-lg:block max-lg:z-40 max-lg:relative max-lg:w-8 max-lg:h-[18px] max-lg:cursor-pointer after:content-[''] after:left-0 after:absolute after:h-[2px] after:w-full after:bg-white afer:top-0 after:transition-all after:ease-in-out after:duration-300 before:content-[''] before:left-0 before:absolute before:h-[2px] before:w-full before:bg-white before:bottom-0 before:transition-all before:ease-in-out before:duration-300"
       :class="{
         'before:-rotate-45 before:top-1/2  after:rotate-45 after:top-1/2': isBurgerOpen
           ? true

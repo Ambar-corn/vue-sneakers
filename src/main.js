@@ -5,8 +5,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 
 import App from './App.vue'
+import { createPinia } from 'pinia'
 import Home from './pages/Home.vue'
 import Favorites from './pages/Favorites.vue'
+
+const pinia = createPinia()
 
 const app = createApp(App)
 
@@ -23,5 +26,7 @@ const router = createRouter({
 app.use(router)
 
 app.use(autoAnimatePlugin)
+
+app.use(pinia)
 
 app.mount('#app')

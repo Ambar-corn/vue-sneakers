@@ -3,6 +3,11 @@ import { ref, provide, watch, computed } from 'vue'
 
 import Header from './components/Header.vue'
 import Drawer from './components/Drawer.vue'
+import BaseModal from './components/BaseModal.vue'
+import { useClickOutside } from './composables/useClickOutside'
+import { useCloseModal } from './stores/uiStores'
+
+const isOpenModal = useCloseModal()
 
 const cart = ref([])
 
@@ -65,6 +70,7 @@ provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
       v-show="drawerOpen"
       :drawer-open="drawerOpen"
     />
+    <BaseModal :is-open-modal="isOpenModal.isOpen" @close-modal="isOpenModal.closeModal" />
 
     <Header :total-price="totalPrice" @open-drawer="openDrawer" />
     <div class="p-10">

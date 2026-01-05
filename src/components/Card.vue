@@ -1,4 +1,6 @@
 <script setup>
+import { defineEmits, ref } from 'vue'
+
 defineProps({
   id: Number,
   title: String,
@@ -6,17 +8,30 @@ defineProps({
   price: Number,
   isFavorite: Boolean,
   isAdded: Boolean,
-  onClickAdd: Function,
-  onClickFavorite: Function,
 })
+
+const emit = defineEmits(['open', 'add', 'favorite'])
+
+const likeRef = ref(null)
+
+const addRef = ref(null)
+
+function onCardClick(event) {
+  if (likeRef.value?.contains(event.target) || addRef.value?.contains(event.target)) {
+    return
+  }
+
+  emit('open')
+}
 </script>
 <template>
   <div
+    @click="onCardClick"
     class="relative bg-teal-600 border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 transition hover:shadow-xl"
   >
     <img
-      v-if="onClickFavorite"
-      @click="onClickFavorite"
+      ref="likeRef"
+      @click.stop="emit('favorite')"
       :src="!isFavorite ? '/like-1.svg' : '/like-2.svg'"
       alt="Like-2"
       class="absolute top-8 left-8"
@@ -33,8 +48,8 @@ defineProps({
         <span class="font-semibold text-black">{{ price }} руб.</span>
       </div>
       <img
-        v-if="onClickAdd"
-        @click="onClickAdd"
+        ref="addRef"
+        @click.stop="emit('add')"
         :src="!isAdded ? '/plus.svg' : '/checked.svg'"
         alt="Plus"
       />

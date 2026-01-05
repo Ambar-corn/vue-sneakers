@@ -128,6 +128,10 @@ const fetchItems = async () => {
   }
 }
 
+function openModal(item) {
+  console.log(`${item.id}`)
+}
+
 onMounted(async () => {
   const loclaCart = localStorage.getItem('cart')
   cart.value = loclaCart ? JSON.parse(loclaCart) : []
@@ -179,6 +183,11 @@ watch(cart, () => {
     </div>
   </div>
   <div class="mt-10">
-    <CardList :items="items" @add-to-favorite="addToFavorite" @add-to-cart="onClickAddPlus" />
+    <CardList
+      :items="items"
+      @add-to-favorite="addToFavorite"
+      @add-to-cart="onClickAddPlus"
+      @open-modal="openModal"
+    />
   </div>
 </template>

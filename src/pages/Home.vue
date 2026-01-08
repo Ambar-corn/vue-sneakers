@@ -4,6 +4,14 @@ import axios from 'axios'
 import CardList from '../components/CardList.vue'
 import { inject } from 'vue'
 import debounce from 'lodash.debounce'
+import { useProductStore } from '../stores/productsStores'
+import ProductModal from '@/components/ProductModal.vue'
+import { reduceEachLeadingCommentRange } from 'typescript'
+import { useUiStore } from '../stores/uiStores'
+
+const productStore = useProductStore()
+
+const uiStore = useUiStore()
 
 const { cart, addToCart, removeFromCart } = inject('cart')
 
@@ -129,7 +137,8 @@ const fetchItems = async () => {
 }
 
 function openModal(item) {
-  console.log(`${item.id}`)
+  productStore.fetchProductById(item.id)
+  uiStore.openProductModal()
 }
 
 onMounted(async () => {
@@ -190,4 +199,5 @@ watch(cart, () => {
       @open-modal="openModal"
     />
   </div>
+  <ProductModal />
 </template>

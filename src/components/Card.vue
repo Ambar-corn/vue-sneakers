@@ -26,7 +26,7 @@ function onCardClick(event) {
 </script>
 <template>
   <div
-    @click="onCardClick"
+    @click.stop="onCardClick"
     class="relative bg-teal-600 border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 transition hover:shadow-xl"
   >
     <img

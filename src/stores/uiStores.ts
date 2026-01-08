@@ -1,16 +1,15 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
 export const useUiStore = defineStore('ui', {
   state: () => ({
-    isProductModalOpen: true,
+    isProductModalOpen: false,
   }),
   actions: {
     closeModal() {
       this.isProductModalOpen = false
     },
-    actions: {
-      openProductModal(id) {},
+    openProductModal() {
+      this.isProductModalOpen = true
     },
   },
 })

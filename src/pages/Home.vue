@@ -8,6 +8,9 @@ import { useProductStore } from '../stores/productsStores'
 import ProductModal from '@/components/ProductModal.vue'
 import { reduceEachLeadingCommentRange } from 'typescript'
 import { useUiStore } from '../stores/uiStores'
+import { useFavoriteStore } from '@/stores/favoritesStore'
+
+const favoriteStore = useFavoriteStore()
 
 const productStore = useProductStore()
 
@@ -139,6 +142,7 @@ const fetchItems = async () => {
 function openModal(item) {
   productStore.fetchProductById(item.id)
   uiStore.openProductModal()
+  document.body.classList.add('overflow-hidden')
 }
 
 onMounted(async () => {
@@ -152,6 +156,7 @@ onMounted(async () => {
     ...item,
     isAdded: cart.value.some((cartItem) => cartItem.id === item.id),
   }))
+  favoriteStore.fetchFavorites()
 })
 
 watch(filters, fetchItems)

@@ -23,6 +23,11 @@ function handleModalOutside() {
 useClickOutside(modalRef, (event) => {
   handleModalOutside(event)
 })
+
+// function pressEsc() {
+//   emit('closeModal')
+//   console.log(`sdfh`)
+// }
 </script>
 
 <template>

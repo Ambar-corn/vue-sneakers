@@ -39,7 +39,7 @@ function onCardClick(event) {
     <img
       :src="imageUrl"
       alt="Sneaker"
-      class="bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-3xl"
+      class="bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-3xl w-[266px] h-[224px]"
     />
     <p class="mt-2">{{ title }}</p>
     <div class="flex justify-between mt-5">

@@ -32,23 +32,23 @@ const onChangeSearchInput = debounce((event) => {
   filters.searchQuery = event.target.value
 }, 500)
 
-const deleteAll = async () => {
-  try {
-    const { data: favorites } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
+// const deleteAll = async () => {
+//   try {
+//     const { data: favorites } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
 
-    for (const f of favorites) {
-      await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${f.id}`)
-    }
+//     for (const f of favorites) {
+//       await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${f.id}`)
+//     }
 
-    items.value = items.value.map((item) => ({
-      ...item,
-      isFavorite: false,
-      favoriteId: undefined,
-    }))
-  } catch (err) {
-    console.log(err)
-  }
-}
+//     items.value = items.value.map((item) => ({
+//       ...item,
+//       isFavorite: false,
+//       favoriteId: undefined,
+//     }))
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
 
 const deleteOrders = async () => {
   try {
@@ -62,26 +62,26 @@ const deleteOrders = async () => {
   }
 }
 
-const addToFavorite = async (item) => {
-  try {
-    if (!item.isFavorite) {
-      const obj = {
-        sneaker_id: item.id,
-      }
-      item.isFavorite = true
-      // console.log(item)
-      const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/favorites', obj)
-      item.favoriteId = data.id
-      // axios.post(`https://b561fe78d0163fe1.mokky.dev/sneakers/${sneaker_id}`)
-    } else {
-      item.isFavorite = false
-      await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${item.favoriteId}`)
-      // item.favoriteId = null
-    }
-  } catch (err) {
-    console.log(err)
-  }
-}
+// const addToFavorite = async (item) => {
+//   try {
+//     if (!item.isFavorite) {
+//       const obj = {
+//         sneaker_id: item.id,
+//       }
+//       item.isFavorite = true
+//       // console.log(item)
+//       const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/favorites', obj)
+//       item.favoriteId = data.id
+//       // axios.post(`https://b561fe78d0163fe1.mokky.dev/sneakers/${sneaker_id}`)
+//     } else {
+//       item.isFavorite = false
+//       await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${item.favoriteId}`)
+//       // item.favoriteId = null
+//     }
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
 
 const onClickAddPlus = (item) => {
   if (!item.isAdded) {
@@ -94,25 +94,25 @@ const onClickAddPlus = (item) => {
   // console.log(totalPrice)
 }
 
-const fetchFavorites = async () => {
-  try {
-    const { data: favorites } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
-    items.value = items.value.map((item) => {
-      const favorite = favorites.find((favorite) => favorite.sneaker_id === item.id)
-      if (!favorite) {
-        return item
-      }
+// const fetchFavorites = async () => {
+//   try {
+//     const { data: favorites } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
+//     items.value = items.value.map((item) => {
+//       const favorite = favorites.find((favorite) => favorite.sneaker_id === item.id)
+//       if (!favorite) {
+//         return item
+//       }
 
-      return {
-        ...item,
-        isFavorite: true,
-        favoriteId: favorite.id,
-      }
-    })
-  } catch (err) {
-    console.log(err)
-  }
-}
+//       return {
+//         ...item,
+//         isFavorite: true,
+//         favoriteId: favorite.id,
+//       }
+//     })
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
 
 const fetchItems = async () => {
   try {
@@ -128,11 +128,11 @@ const fetchItems = async () => {
     })
     items.value = data.map((obj) => ({
       ...obj,
-      isFavorite: false,
+      // isFavorite: false,
       favoriteId: null,
       isAdded: false,
     }))
-    await fetchFavorites()
+    // await fetchFavorites()
     console.log(items)
   } catch (err) {
     console.log(err)
@@ -150,13 +150,13 @@ onMounted(async () => {
   cart.value = loclaCart ? JSON.parse(loclaCart) : []
 
   await fetchItems()
-  await fetchFavorites()
+  // await fetchFavorites()
 
   items.value = items.value.map((item) => ({
     ...item,
     isAdded: cart.value.some((cartItem) => cartItem.id === item.id),
   }))
-  favoriteStore.fetchFavorites()
+  favoriteStore.requestFavorites()
 })
 
 watch(filters, fetchItems)
@@ -197,12 +197,7 @@ watch(cart, () => {
     </div>
   </div>
   <div class="mt-10">
-    <CardList
-      :items="items"
-      @add-to-favorite="addToFavorite"
-      @add-to-cart="onClickAddPlus"
-      @open-modal="openModal"
-    />
+    <CardList :items="items" @add-to-cart="onClickAddPlus" @open-modal="openModal" />
   </div>
   <ProductModal />
 </template>

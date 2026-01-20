@@ -1,10 +1,16 @@
 <script setup>
 import Card from './Card.vue'
+import { onMounted } from 'vue'
+import { useFavoriteStore } from '@/stores/favoritesStore'
+
+const favoriteStore = useFavoriteStore()
 
 defineProps({
   items: Array,
   isFavorites: Boolean,
 })
+
+//! "
 
 const emit = defineEmits(['addToFavorite', 'addToCart', 'openModal'])
 </script>
@@ -17,11 +23,10 @@ const emit = defineEmits(['addToFavorite', 'addToCart', 'openModal'])
       :title="item.title"
       :imageUrl="item.imageUrl"
       :price="item.price"
-      :isFavorite="item.isFavorite"
       :isAdded="item.isAdded"
       @open="() => emit('openModal', item)"
       @add="() => emit('addToCart', item)"
-      @favorite="() => emit('addToFavorite', item)"
+      @favorite="() => emit('addToFavorite', item.id)"
     />
   </div>
 </template>

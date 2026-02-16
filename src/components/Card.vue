@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 import { useFavoriteStore } from '@/stores/favoritesStore'
 
@@ -20,7 +20,7 @@ const likeRef = ref(null)
 
 const addRef = ref(null)
 
-const isFavorite = computed(() => favoriteStore.fetchFavoriteById(props.id))
+const isFavorite = computed(() => favoriteStore.isFavorite(props.id)) //~Почему так
 
 function onCardClick(event) {
   if (likeRef.value?.contains(event.target) || addRef.value?.contains(event.target)) {
@@ -44,12 +44,11 @@ console.log(`${isFavorite.value}`)
 <template>
   <div
     @click.stop="onCardClick"
-    class="relative bg-teal-600 border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 transition hover:shadow-xl"
+    class="relative bg-zinc-900 border border-slate-100 rounded-3xl p-8 cursor-pointer hover:-translate-y-2 transition hover:shadow-xl"
   >
     <img
       @click="favoriteStore.favoritesToggle(props.id)"
       ref="likeRef"
-      @click.stop="emit('favorite')"
       :src="isFavorite ? '/like-2.svg' : '/like-1.svg'"
       alt="Like-2"
       class="absolute top-8 left-8"

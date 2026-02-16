@@ -62,8 +62,8 @@ provide('cart', { cart, closeDrawer, openDrawer, addToCart, removeFromCart })
 </script>
 
 <template>
-  <!--? -4/5  -->
-  <div class="bg-teal-600 w-full rounded-xl shadow-xl">
+  <!--? bg-teal-600-->
+  <div class="bg-zinc-900 w-full rounded-xl shadow-xl">
     <Drawer
       :total-price="totalPrice"
       :vat-price="vatPrice"

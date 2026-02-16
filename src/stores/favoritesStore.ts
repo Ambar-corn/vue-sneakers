@@ -7,77 +7,109 @@ type Favorite = {
   id: number
 }
 
+type FavoriteTemporary = {
+  sneaker_id: number
+  temp_id: string
+}
+
+type FavoriteState = Favorite | FavoriteTemporary
+
 export const useFavoriteStore = defineStore('favorites', () => {
-  const favorites = ref<Favorite[]>([])
-  const propfavorites = ref<Favorite[]>([])
-  const stateFetch = ref(false)
+  const favorites = ref<FavoriteState[]>([])
 
   async function requestFavorites() {
     try {
       const { data } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
-      // console.log(`${JSON.stringify(favorites)}`)
       favorites.value = data
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 
-  function fetchFavoriteById(id: number) {
+  function isFavorite(id: number): boolean {
+    return favorites.value.some((el) => el.sneaker_id === id)
+  }
+
+  function getFavoriteBySneakerId(id: number): FavoriteState | undefined {
     return favorites.value.find((el) => el.sneaker_id === id)
+  }
+  async function deleteBySneakerId(id: number) {
+    const fetchFavorite = getFavoriteBySneakerId(id)
 
-    // console.log(`--- ${stateFetch.value}`)
-    // return stateFetch.value
+    if (fetchFavorite && 'id' in fetchFavorite) {
+      const index = favorites.value.findIndex((el) => el === fetchFavorite)
+      if (index !== -1) {
+        try {
+          // const sneakerId = fetchFavorite.sneaker_id
+
+          const objectId = fetchFavorite.id
+
+          favorites.value.splice(index, 1)
+
+          await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${objectId}`)
+        } catch (error) {
+          favorites.value.splice(index, 0, fetchFavorite)
+          throw error
+        }
+      }
+    } else if (fetchFavorite && 'temp_id' in fetchFavorite) {
+      const index = favorites.value.findIndex((el) => el === fetchFavorite)
+      favorites.value.splice(index, 1)
+    } else throw new Error('Этот товар уже удалён из избранного')
   }
 
-  async function deleteFavoriteById(id: number) {
+  async function addToFavorite(id: number) {
+    const obj = {
+      sneaker_id: id,
+    }
+    const objTemp = {
+      sneaker_id: obj.sneaker_id,
+      temp_id: crypto.randomUUID(),
+    }
     try {
-      await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${id}`)
+      favorites.value.push(objTemp)
+
+      const { data } = await axios.post(`https://b561fe78d0163fe1.mokky.dev/favorites`, obj)
+
+      replacementTemporaryFavorite(data, objTemp)
     } catch (error) {
-      console.log(`error ${id}`)
+      const indexTemp = favorites.value.findIndex(
+        (el) => 'temp_id' in el && el.temp_id === objTemp.temp_id,
+      )
+      if (indexTemp !== -1) {
+        favorites.value.splice(indexTemp, 1)
+      } else return
+      throw error
     }
   }
 
-  async function addToFavorite(obj: Favorite) {
-    try {
-      await axios.post(`https://b561fe78d0163fe1.mokky.dev/favorites`, obj)
-    } catch (error) {
-      console.log(error)
-    }
+  function replacementTemporaryFavorite(obj: Favorite, objTemp: FavoriteTemporary) {
+    // const replacementFavorite = obj
+
+    const indexReplacementObject = favorites.value.findIndex(
+      (el) => 'temp_id' in el && el.temp_id === objTemp.temp_id,
+    )
+    if (indexReplacementObject !== -1) {
+      favorites.value.splice(indexReplacementObject, 1, obj)
+    } else return
   }
 
-  function favoritesToggle(id: number) {
-    if (fetchFavoriteById(id)) {
-      const sneakerId = fetchFavoriteById(id).sneaker_id
-
-      const objectId = fetchFavoriteById(id).id
-
-      console.log(`${JSON.stringify(favorites.value)}`)
-
-      favorites.value = favorites.value.filter((el) => el.sneaker_id !== sneakerId)
-
-      deleteFavoriteById(objectId)
-
-      console.log(`${JSON.stringify(favorites.value)} После удаления `)
+  async function favoritesToggle(id: number) {
+    const stateIsFavorite = isFavorite(id)
+    if (stateIsFavorite) {
+      try {
+        await deleteBySneakerId(id)
+      } catch (error) {
+        alert(`Не удалось удалить из избранного данный товар ${error}`)
+      }
     } else {
-      // const sneakerId = fetchFavoriteById(id).sneaker_id
-      // const fdslkf = favorites.value.slice(-1)
-      const obj = {
-        sneaker_id: id,
-        id: favorites.value.length === 0 ? 0 : favorites.value.slice(-1)[0].id,
+      try {
+        await addToFavorite(id)
+      } catch (error) {
+        alert(`Не удалось добавить в избранное данный товар ${error}`)
       }
-      const objLocal = {
-        sneaker_id: id,
-        id: favorites.value.length === 0 ? 1 : favorites.value.slice(-1)[0].id + 1,
-      }
-
-      favorites.value.push(objLocal)
-
-      addToFavorite(obj)
-
-      console.log(`Добавление ${JSON.stringify(obj.id)}  ->fav ${JSON.stringify(favorites.value)} `)
     }
   }
-  // console.log(` ${el.sneaker_id}===${id}`)
 
-  return { requestFavorites, fetchFavoriteById, favorites, favoritesToggle }
+  return { requestFavorites, isFavorite, favorites, favoritesToggle }
 })

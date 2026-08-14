@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import axios from 'axios'
 
 type Favorite = {
@@ -14,15 +14,22 @@ type FavoriteTemporary = {
 
 type FavoriteState = Favorite | FavoriteTemporary
 
+type Operations = { type: 'adding' | 'removing'; currentOperationId: string }
+
 export const useFavoriteStore = defineStore('favorites', () => {
   const favorites = ref<FavoriteState[]>([])
+
+  const favoritesLoading = ref(false)
+
+  const favoritesState = reactive<Record<number, Operations>>({})
 
   async function requestFavorites() {
     try {
       const { data } = await axios.get('https://b561fe78d0163fe1.mokky.dev/favorites')
+
       favorites.value = data
     } catch (error) {
-      throw error
+      throw error //!Добавить для этого catch в компоненте Card
     }
   }
 
@@ -38,6 +45,11 @@ export const useFavoriteStore = defineStore('favorites', () => {
 
     if (fetchFavorite && 'id' in fetchFavorite) {
       const index = favorites.value.findIndex((el) => el === fetchFavorite)
+
+      favoritesState[id] = { type: 'removing', currentOperationId: crypto.randomUUID() }
+
+      const operationId = favoritesState[id].currentOperationId
+
       if (index !== -1) {
         try {
           // const sneakerId = fetchFavorite.sneaker_id
@@ -46,10 +58,16 @@ export const useFavoriteStore = defineStore('favorites', () => {
 
           favorites.value.splice(index, 1)
 
+          favoritesLoading.value = true
+
           await axios.delete(`https://b561fe78d0163fe1.mokky.dev/favorites/${objectId}`)
         } catch (error) {
           favorites.value.splice(index, 0, fetchFavorite)
           throw error
+        } finally {
+          if (operationId !== favoritesState[id].currentOperationId) return
+          delete favoritesState[id]
+          favoritesLoading.value = false
         }
       }
     } else if (fetchFavorite && 'temp_id' in fetchFavorite) {
@@ -66,8 +84,14 @@ export const useFavoriteStore = defineStore('favorites', () => {
       sneaker_id: obj.sneaker_id,
       temp_id: crypto.randomUUID(),
     }
+
+    favoritesState[id] = { type: 'adding', currentOperationId: crypto.randomUUID() }
+
+    const operationId = favoritesState[id].currentOperationId
     try {
       favorites.value.push(objTemp)
+
+      favoritesLoading.value = true
 
       const { data } = await axios.post(`https://b561fe78d0163fe1.mokky.dev/favorites`, obj)
 
@@ -80,6 +104,11 @@ export const useFavoriteStore = defineStore('favorites', () => {
         favorites.value.splice(indexTemp, 1)
       } else return
       throw error
+    } finally {
+      if (operationId !== favoritesState[id].currentOperationId) return
+      delete favoritesState[id]
+
+      favoritesLoading.value = false
     }
   }
 
@@ -95,7 +124,12 @@ export const useFavoriteStore = defineStore('favorites', () => {
   }
 
   async function favoritesToggle(id: number) {
+    if (favoritesState[id]) {
+      return
+    }
+
     const stateIsFavorite = isFavorite(id)
+
     if (stateIsFavorite) {
       try {
         await deleteBySneakerId(id)
@@ -111,5 +145,5 @@ export const useFavoriteStore = defineStore('favorites', () => {
     }
   }
 
-  return { requestFavorites, isFavorite, favorites, favoritesToggle }
+  return { requestFavorites, isFavorite, favorites, favoritesToggle, favoritesLoading }
 })

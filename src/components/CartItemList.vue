@@ -1,20 +1,34 @@
-<script setup>
-import { inject } from 'vue'
+<script setup lang="ts">
 import CartItem from './CartItem.vue'
+import { useCartStore } from '@/stores/cartStore'
 
-const { cart, removeFromCart } = inject('cart')
+const cartStore = useCartStore()
+
+// productId: number;
+// title: string;
+// price: number;
+// imageUrl: string[];
+// size: number;
+// quantity: number;
+
+// <CartItem
+//   v-for="item in cartStore.localItems"
+//   :key="item.productId"
+//   :product-id="item.productId"
+//   :title="item.title"
+//   :image-url="item.imageUrl"
+//   :price="item.price"
+//   :size="item.size"
+//   :quantity="item.quantity"
+// />
 </script>
 
 <template>
   <div class="flex flex-col flex-1 gap-4" v-auto-animate>
     <CartItem
-      v-for="item in cart"
-      :key="item.id"
-      :id="item.id"
-      :title="item.title"
-      :image-url="item.imageUrl"
-      :price="item.price"
-      @onclickRemove="() => removeFromCart(item)"
+      v-for="item in cartStore.localItems"
+      :key="`${item.productId}-${item.size}`"
+      :cart-item="item"
     />
   </div>
 </template>

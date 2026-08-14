@@ -1,52 +1,92 @@
 <script setup>
+import { computed, ref, watch } from 'vue'
 import BaseModal from './BaseModal.vue'
 import { useProductStore } from '../stores/productsStores'
 import { useUiStore } from '../stores/uiStores'
+import { useFavoriteStore } from '@/stores/favoritesStore'
+import { useCartStore } from '@/stores/cartStore'
+import { useDelayedLoading } from '@/composables/useDelayedLoading'
 
-const emit = defineEmits(['addToFavorite', 'addToCart'])
+import CartButton from '@/components/ui/CartButton.vue'
+import FavoriteButton from '@/components/ui/FavoriteButton.vue'
+import ImageSlider from './ImageSlider.vue'
+import AccordionList from '@/playground/AccordionList.vue'
 
+const favoriteStore = useFavoriteStore()
+const cartStore = useCartStore()
 const uiStore = useUiStore()
-
 const productStore = useProductStore()
 
-function closeModal() {
-  uiStore.closeModal()
-  document.body.classList.remove('overflow-hidden')
-}
-</script>
-<template>
-  <BaseModal :is-open-modal="uiStore.isProductModalOpen" @close-modal="closeModal">
-    <div class="w-full h-full flex items-center flex-col gap gap-y-4 p-8 animate-pulse">
-      <div class="w-4/5 h-1/3 bg-gradient-to-r from-violet-500 to-fuchsia-500"></div>
-      <div class="w-4/5 h-1/3 flex gap gap-x-4 justify-between">
-        <div
-          @click="() => emit('addToFavorite', productStore.activeProduct)"
-          class="w-2/5 h-1/5 bg-red-300 rounded-3xl"
-        ></div>
-        <div class="w-2/5 h-1/5 bg-green-300 rounded-3xl"></div>
-      </div>
-    </div>
+const showLoading = useDelayedLoading(() => favoriteStore.favoritesLoading, 500)
+const showSkeleton = useDelayedLoading(
+  () => uiStore.isProductModalOpen && (productStore.productLoading || !productStore.imagesReady),
+  500,
+)
 
-    <div
-      class="w-full h-full flex justify-center"
-      v-if="productStore.activeProduct && productStore.activeProduct != null"
-    >
-      <!-- <img class="w-3/5 h-1/3" :src="productStore.activeProduct.imageUrl" alt="" /> -->
-      <!-- <div class="text-black p-4 rounded">
-        {{ productStore.activeProduct.id }}
+const isFavorite = computed(() =>
+  productStore.activeProduct ? favoriteStore.isFavorite(productStore.activeProduct.id) : false,
+)
+
+const isAdded = computed(() =>
+  productStore.activeProduct ? cartStore.isAdded(productStore.activeProduct.id) : false,
+)
+
+const isOpenDescription = ref(false)
+
+const selectedSize = ref(null)
+
+function closeProductModal() {
+  uiStore.closeModal()
+  productStore.clearActiveProduct()
+  document.body.classList.remove('overflow-hidden')
+  selectedSize.value = null
+}
+
+function toggleDescription() {
+  isOpenDescription.value = !isOpenDescription.value
+}
+
+watch(selectedSize, () => {
+  console.log(`selectedSize = ${selectedSize.value}`)
+})
+</script>
+
+<template>
+  <BaseModal :is-open-modal="uiStore.isProductModalOpen" @close-modal="closeProductModal">
+    <div class="w-full h-full flex items-center flex-col gap gap-y-6 pb-8 rounded-xl">
+      <div
+        class="relative w-full h-3/5 overflow-hidden rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500"
+      >
+        <div v-if="showSkeleton" class="absolute inset-0 z-10 animate-pulse bg-gray-200"></div>
+        <ImageSlider
+          v-if="productStore.activeProduct"
+          :images="productStore.activeProduct.imageUrl"
+          :onLoading="productStore.onImageLoad"
+        />
       </div>
-      <div class="text-black p-4 rounded">
-        {{ productStore.activeProduct.title }}
+      <div class="w-full h-[55px] flex gap gap-x-4 justify-between relative select-none pr-6 pl-6">
+        <FavoriteButton
+          class="w-[55px]"
+          @click="
+            productStore.activeProduct &&
+            favoriteStore.favoritesToggle(productStore.activeProduct.id)
+          "
+          :is-favorite="isFavorite"
+          :show-loading="showLoading"
+        />
+
+        <CartButton
+          class="w-[60px]"
+          @click.stop="cartStore.cartLocalToggle(productStore.activeProduct)"
+          :is-added="isAdded"
+        />
       </div>
-      <div class="text-black p-4 rounded">
-        {{ productStore.activeProduct.price }}
-      </div>
-      <div class="text-black p-4 rounded">
-        {{ productStore.activeProduct.imageUrl }}
-      </div>
-      <div class="text-black p-4 rounded">
-        {{ productStore.activeProduct.description }}
-      </div> -->
+
+      <AccordionList
+        v-if="productStore.activeProduct"
+        :accordion-data="productStore.activeProduct.accordionData"
+        @size="selectedSize = $event"
+      />
     </div>
   </BaseModal>
 </template>

@@ -5,6 +5,9 @@ import DrawerHead from './DrawerHead.vue'
 import CartItemList from './CartItemList.vue'
 import InfoBlock from './InfoBlockk.vue'
 import { useClickOutside } from '@/composables/useClickOutside'
+import { useCartStore } from '@/stores/cartStore'
+
+const cartStore = useCartStore()
 
 const isCreating = ref(false)
 
@@ -13,8 +16,8 @@ const orderId = ref(null)
 const drawerRef = ref(null)
 
 const props = defineProps({
-  totalPrice: Number,
-  vatPrice: Number,
+  // totalPrice: Number,
+  // vatPrice: Number,
   isCreatingOrder: Boolean,
   drawerOpen: Boolean,
 })
@@ -35,7 +38,7 @@ const buttonDisabled = computed(() => {
   }
 })
 
-const { cart, closeDrawer } = inject('cart')
+const { closeDrawer } = inject('cart')
 // const cartIsEmpty = computed(() => cart.value.lenght === 0)
 
 const createOrder = async () => {
@@ -69,9 +72,9 @@ const createOrder = async () => {
     >
       <DrawerHead />
 
-      <div v-if="!totalPrice || orderId" class="flex h-full items-center">
+      <div v-if="!cartStore.totalPrice || orderId" class="flex h-full items-center">
         <InfoBlock
-          v-if="!totalPrice && !orderId"
+          v-if="!cartStore.totalPrice && !orderId"
           image-url="/package-icon.png"
           title="Корзина пустая"
           description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
@@ -91,12 +94,12 @@ const createOrder = async () => {
           <div class="flex gap-2">
             <span>Итого:</span>
             <div class="flex-1 border-b border-dashed"></div>
-            <span>{{ totalPrice }} ₽ </span>
+            <span>{{ cartStore.totalPrice }} ₽ </span>
           </div>
           <div class="flex gap-2">
             <span>Налог 5%:</span>
             <div class="flex-1 border-b border-dashed"></div>
-            <span>{{ vatPrice }} ₽ </span>
+            <span>{{ cartStore.vatPrice }} ₽ </span>
           </div>
           <button
             :disabled="buttonDisabled"

@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "title": "Мужские Кроссовки Nike Blazer Mid Suede",
+    "price": 12999,
+    "imageUrl": [
+      "/sneakers/sneakers-1/sneakers-1-1.png",
+      "/sneakers/sneakers-1/sneakers-1-2.png",
+      "/sneakers/sneakers-1/sneakers-1-3.png",
+      "/sneakers/sneakers-1/sneakers-1-4.png",
+      "/sneakers/sneakers-1/sneakers-1-5.png",
+      "/sneakers/sneakers-1/sneakers-1-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Мужские кроссовки от бренда ТВОЕ — это воплощение современного городского стиля, где классика встречается с актуальными трендами. Лаконичный бежевый оттенок и сдержанный дизайн делают модель универсальной: она легко вписывается в повседневные образы и при этом не теряет выразительности."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39"]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Мужские Кроссовки Reebok ZIGNITION",
+    "price": 15600,
+    "imageUrl": [
+      "/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-1.png",
+      "/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-2.png",
+      "/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-3.png",
+      "/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-4.png",
+      "/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-5.png",
+      "/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Верх выполнен из прочного текстиля, а мягкая внутренняя часть обеспечивает воздухопроницаемость даже во время активной нагрузки. Легкая резиновая подошва гарантирует отличное сцепление с поверхностью и долговечность. Модель идеально подходит для занятий спортом или повседневной носки благодаря удобству застежки на шнурках и эргономической форме."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["42.5", "43", "43.5", "44"]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Мужские Кроссовки Reebok ZIG KINETICA",
+    "price": 8499,
+    "imageUrl": [
+      "/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-1.png",
+      "/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-2.png",
+      "/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-3.png",
+      "/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-4.png",
+      "/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-5.png",
+      "/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Внимание! На коробке указывается европейский размер. Российское соответствие представлено в карточке товара. Женские спортивные кроссовки Reebok ZIG KINETICA 2.5 EDGE WINTER. Состав: верх - 100% синтетическая кожа, текстиль, подкладка - 100% текстиль, низ - 100% резина. Reebok ZIG KINETICA 2.5 EDGE кроссовки, в которых можно с комфортом передвигаться как по обледенелым городским тротуарам, так и по труднопроходимым лесным тропам. В основе этой повседневной модели лежат все самые передовые технологии."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "39.5", "42.5", "43", "43.5", "44"]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Кроссовки Reebok VERSE",
+    "price": 7800,
+    "imageUrl": [
+      "/sneakers/Reebok VERSE/Reebok VERSE-1.png",
+      "/sneakers/Reebok VERSE/Reebok VERSE-2.png",
+      "/sneakers/Reebok VERSE/Reebok VERSE-3.png",
+      "/sneakers/Reebok VERSE/Reebok VERSE-4.png",
+      "/sneakers/Reebok VERSE/Reebok VERSE-5.png",
+      "/sneakers/Reebok VERSE/Reebok VERSE-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Reebok предлагает вам мужские кроссовки из коллекции VERSE, которые станут вашими надежными спутниками как на тренировках, так и во время прогулок. Эта обувь изготовлена с использованием высококачественных материалов - текстиля и полимерного материала, что обеспечивает комфорт и долговечность."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "39.5", "42.5", "43", "43.5", "44"]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Кроссовки Reebok SMASH EDGE",
+    "price": 9550,
+    "imageUrl": [
+      "/sneakers/Reebok SMASH EDGE/Reebok SMASH EDGE-1.png",
+      "/sneakers/Reebok SMASH EDGE/Reebok SMASH EDGE-2.png",
+      "/sneakers/Reebok SMASH EDGE/Reebok SMASH EDGE-3.png",
+      "/sneakers/Reebok SMASH EDGE/Reebok SMASH EDGE-4.png",
+      "/sneakers/Reebok SMASH EDGE/Reebok SMASH EDGE-5.png",
+      "/sneakers/Reebok SMASH EDGE/Reebok SMASH EDGE-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Оригинальные кроссовки унисекс Reebok SMASH EDGE — это сочетание стиля, функциональности и надежности. Модель создана для активных мужчин и женщин, которые ценят комфорт и современный дизайн. Верх выполнен из прочной натуральной и синтетической кожи, что обеспечивает отличную износостойкость и удобную посадку. Амортизирующая подошва эффективно снижает нагрузку на суставы при ходьбе, беге или занятиях спортом, а цепкий протектор гарантирует уверенное сцепление с поверхностью. Классическая шнуровка позволяет регулировать фиксацию стопы для максимального комфорта."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "43", "43.5", "44"]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Кроссовки Reebok Nano",
+    "price": 16999,
+    "imageUrl": [
+      "/sneakers/Reebok Nano X5 Edge/Reebok Nano X5 Edge-1.png",
+      "/sneakers/Reebok Nano X5 Edge/Reebok Nano X5 Edge-2.png",
+      "/sneakers/Reebok Nano X5 Edge/Reebok Nano X5 Edge-3.png",
+      "/sneakers/Reebok Nano X5 Edge/Reebok Nano X5 Edge-4.png",
+      "/sneakers/Reebok Nano X5 Edge/Reebok Nano X5 Edge-5.png",
+      "/sneakers/Reebok Nano X5 Edge/Reebok Nano X5 Edge-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Кроссовки мужские Reebok Nano X5 Edge 100244428 . Кроссовки Reebok Nano X5 Edge представляют собой пятое поколение легендарной линейки обуви для кроссфита, созданной для атлетов, требующих максимальной универсальности и надежности. Модель сочетает в себе стабильность, необходимую для тяжелой атлетики, и гибкость для динамических упражнений, таких как берпи, прыжки на тумбу и спринты. Усиленный верх из прочного текстиля с синтетическими вставками выдерживает экстремальные нагрузки и обеспечивает отличную боковую поддержку при резких движениях. Инновационная пена Floatride Energy Foam в средней подошве дарит мягкую амортизацию и высокий энерговозврат, не жертвуя при этом устойчивостью платформы. Широкая пятка и плоская база гарантируют идеальное равновесие при работе со свободными весами, штангой или гирями. Дышащая конструкция верха предотвращает перегрев стопы, а цепкая резиновая подметка обеспечивает отличное сцепление с полом зала, линолеумом и уличным покрытием. Смелый дизайн с агрессивными графическими элементами подчеркивает спортивный характер владельца. Nano X5 Edge — это надежный партнер для тех, кто стремится преодолеть свои пределы и установить новые личные рекорды в зале и за его пределами."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "43", "43.5", "44"]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Кроссовки Reebok MUNDO",
+    "price": 7499,
+    "imageUrl": [
+      "/sneakers/Reebok MUNDO/Reebok MUNDO-1.png",
+      "/sneakers/Reebok MUNDO/Reebok MUNDO-2.png",
+      "/sneakers/Reebok MUNDO/Reebok MUNDO-3.png",
+      "/sneakers/Reebok MUNDO/Reebok MUNDO-4.png",
+      "/sneakers/Reebok MUNDO/Reebok MUNDO-5.png",
+      "/sneakers/Reebok MUNDO/Reebok MUNDO-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Легкие кроссовки Reebok MUNDO, разработанные для максимального комфорта. Верх из дышащей сетки обеспечивает прохладу ног, а амортизирующая подошва поглощает удары при каждом шаге. Стабильная конструкция поддерживает стопу во время ходьбы и тренировок, делая эту модель идеальной для повседневного использования и активного отдыха."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "43", "43.5", "44"]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Кроссовки Reebok EDGEWOOD",
+    "price": 15600,
+    "imageUrl": [
+      "/sneakers/Reebok EDGEWOOD/Reebok EDGEWOOD-1.png",
+      "/sneakers/Reebok EDGEWOOD/Reebok EDGEWOOD-2.png",
+      "/sneakers/Reebok EDGEWOOD/Reebok EDGEWOOD-3.png",
+      "/sneakers/Reebok EDGEWOOD/Reebok EDGEWOOD-4.png",
+      "/sneakers/Reebok EDGEWOOD/Reebok EDGEWOOD-5.png",
+      "/sneakers/Reebok EDGEWOOD/Reebok EDGEWOOD-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Беговые технологии Reebok для повседневного комфорта воплотились в модели кроссовок Reebok NITE X. Модель выполнена на базе бегового силуэта и легкого пеноматериала Fuel Foam, которые обеспечивает отличную амортизацию при ходьбе. Дышащий материал верха обеспечивает превосходный воздухообмен. Прорезиненная подметка предотвращает преждевременный износ обуви. Комфортная зона пятки и язычка."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "43", "44"]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Кроссовки PUMA SOFTRIDE",
+    "price": 5900,
+    "imageUrl": [
+      "/sneakers/PUMA SOFTRIDE COSMIC LT/PUMA SOFTRIDE COSMIC LT-1.png",
+      "/sneakers/PUMA SOFTRIDE COSMIC LT/PUMA SOFTRIDE COSMIC LT-2.png",
+      "/sneakers/PUMA SOFTRIDE COSMIC LT/PUMA SOFTRIDE COSMIC LT-3.png",
+      "/sneakers/PUMA SOFTRIDE COSMIC LT/PUMA SOFTRIDE COSMIC LT-4.png",
+      "/sneakers/PUMA SOFTRIDE COSMIC LT/PUMA SOFTRIDE COSMIC LT-5.png",
+      "/sneakers/PUMA SOFTRIDE COSMIC LT/PUMA SOFTRIDE COSMIC LT-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Ощутите безупречный стиль с новейшими кроссовками от PUMA. Дышащий сетчатый верх и накладки из синтетической нубуковой кожи обеспечивают прочность и элегантность. Наслаждайтесь каждым шагом благодаря амортизации Softride и стельке SOFTFOAM+. Идеально подходят для вашего динамичного образа жизни."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "43", "44"]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Кроссовки PUMA SOFTRIDE",
+    "price": 11500,
+    "imageUrl": [
+      "/sneakers/PUMA SOFTRIDE/PUMA SOFTRIDE-1.png",
+      "/sneakers/PUMA SOFTRIDE/PUMA SOFTRIDE-2.png",
+      "/sneakers/PUMA SOFTRIDE/PUMA SOFTRIDE-3.png",
+      "/sneakers/PUMA SOFTRIDE/PUMA SOFTRIDE-4.png",
+      "/sneakers/PUMA SOFTRIDE/PUMA SOFTRIDE-5.png",
+      "/sneakers/PUMA SOFTRIDE/PUMA SOFTRIDE-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Кроссовки PUMA — современная обувь для активного образа жизни, разработанная для динамичных тренировок и ежедневных прогулок. Верх выполнен из воздухопроницаемого сетчатого материала, который обеспечивает отличную вентиляцию стопы. Накладки из искусственного нубука добавляют стильный внешний вид и повышенную износостойкость, совмещая лёгкость с долговечностью."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "39.5", "40", "40.5", "41", "41.5"]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Кроссовки PUMA COURT",
+    "price": 7600,
+    "imageUrl": [
+      "/sneakers/PUMA COURT PRO 2/PUMA COURT PRO 2-1.png",
+      "/sneakers/PUMA COURT PRO 2/PUMA COURT PRO 2-2.png",
+      "/sneakers/PUMA COURT PRO 2/PUMA COURT PRO 2-3.png",
+      "/sneakers/PUMA COURT PRO 2/PUMA COURT PRO 2-4.png",
+      "/sneakers/PUMA COURT PRO 2/PUMA COURT PRO 2-5.png",
+      "/sneakers/PUMA COURT PRO 2/PUMA COURT PRO 2-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Возьмите с собой баскетбольные кроссовки A-game in the Court Pro 2. Они оснащены нашей технологией амортизации PROFOAM, обеспечивающей легкий отскок и комфорт, а специальная сетка обеспечивает воздухопроницаемость. Синтетические накладки на верхней части обеспечивают дополнительную поддержку. Созданный для быстрых подсечек и отбивных бросков, Court Pro 2 обеспечивает необходимую производительность и комфорт на корте."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "40", "40,5", "41"]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Кроссовки Nike Defyallday",
+    "price": 13000,
+    "imageUrl": [
+      "/sneakers/Nike Defyallday/Nike Defyallday-1.png",
+      "/sneakers/Nike Defyallday/Nike Defyallday-2.png",
+      "/sneakers/Nike Defyallday/Nike Defyallday-3.png",
+      "/sneakers/Nike Defyallday/Nike Defyallday-4.png",
+      "/sneakers/Nike Defyallday/Nike Defyallday-5.png",
+      "/sneakers/Nike Defyallday/Nike Defyallday-6.png"
+    ],
+    "accordionData": [
+      {
+        "title": "Описание",
+        "content": [
+          "Наденьте Nike Defy All Day и встречайте ежедневные вызовы. Верхняя кожа и нижняя резиновая тяга создают долговечный дизайн, который выдерживает жесткие тренировки. Мягкая амортизация обеспечивает комфорт на протяжении всей тренировки - или в течение всего рабочего дня."
+        ]
+      },
+      {
+        "title": "Размеры",
+        "content": ["39", "40", "40,5", "41"]
+      }
+    ]
+  }
+]

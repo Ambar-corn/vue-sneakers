@@ -12,6 +12,8 @@ export const useUiStore = defineStore('ui', () => {
     isProductModalOpen.value = true
   }
 
+  //! вместо emit в Header function openDrawer
+
   return {
     isProductModalOpen,
     closeModal,

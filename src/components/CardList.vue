@@ -1,18 +1,12 @@
 <script setup>
 import Card from './Card.vue'
-import { onMounted } from 'vue'
-import { useFavoriteStore } from '@/stores/favoritesStore'
-
-const favoriteStore = useFavoriteStore()
 
 defineProps({
   items: Array,
   isFavorites: Boolean,
 })
 
-//! "
-
-const emit = defineEmits(['addToFavorite', 'addToCart', 'openModal'])
+const emit = defineEmits(['openModal'])
 </script>
 <template>
   <div class="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-lg:gap-10" v-auto-animate>
@@ -23,10 +17,7 @@ const emit = defineEmits(['addToFavorite', 'addToCart', 'openModal'])
       :title="item.title"
       :imageUrl="item.imageUrl"
       :price="item.price"
-      :isAdded="item.isAdded"
       @open="() => emit('openModal', item)"
-      @add="() => emit('addToCart', item)"
-      @favorite="() => emit('addToFavorite', item.id)"
     />
   </div>
 </template>

@@ -2,10 +2,13 @@
 import { provide, ref, watch } from 'vue'
 import { onMounted, onUnmounted } from 'vue'
 import { useClickOutside } from '../composables/useClickOutside'
+import { useCartStore } from '@/stores/cartStore'
 
-defineProps({
-  totalPrice: Number,
-})
+// defineProps({
+//   totalPrice: Number,
+// })
+
+const cartStore = useCartStore()
 
 const emit = defineEmits(['openDrawer'])
 
@@ -75,7 +78,7 @@ function toggleBurger() {
       <ul>
         <li @click.stop="onClickCart()" class="flex items-center cursor-pointer gap-3">
           <img src="/cart.svg" alt="Cart" class="" />
-          <span class="text-white hover:text-black">{{ totalPrice }} руб.</span>
+          <span class="text-white hover:text-black">{{ cartStore.totalPrice }} руб.</span>
         </li>
       </ul>
       <ul>

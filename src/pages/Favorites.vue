@@ -1,25 +1,30 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
+//!---
+// import { onMounted, ref } from 'vue'
+// import axios from 'axios'
 
-import CardList from '@/components/CardList.vue'
+// import CardList from '@/components/CardList.vue'
 
-const favorites = ref([])
+// const favorites = ref([])
 
-onMounted(async () => {
-  try {
-    const { data } = await axios.get(
-      'https://b561fe78d0163fe1.mokky.dev/favorites?_relations=sneakers',
-    )
-    favorites.value = data.map((obj) => obj.sneaker)
-  } catch (err) {
-    console.log(err)
-  }
-})
+// onMounted(async () => {
+//   try {
+//     const { data } = await axios.get(
+//       'https://b561fe78d0163fe1.mokky.dev/favorites?_relations=sneakers',
+//     )
+//     favorites.value = data.map((obj) => obj.sneaker)
+//   } catch (err) {
+//     console.log(err)
+//   }
+// })
+
+import DragAndDropBall from '@/playground/DragAndDropBall.vue'
+import RequestAnimationFrame from '@/playground/RequestAnimationFrame.vue'
 </script>
 
 <template>
-  <h2 class="text-3xl font-bold mb-8">Мои закладки</h2>
+  <!-- //!--- <h2 class="text-3xl font-bold mb-8">Мои закладки</h2>
 
-  <CardList :items="favorites" is-favorites />
+  <CardList :items="favorites" is-favorites />   //!--- -->
+  <RequestAnimationFrame />
 </template>

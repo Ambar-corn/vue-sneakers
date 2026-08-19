@@ -28,11 +28,21 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  function isAdded(id: number): boolean {
-    return localItems.value.some((el) => el.productId === id)
+  // function isAdded(id: number): boolean {
+  //   //!старая структура
+
+  //   console.log(`id = ${id}`)
+  //   return localItems.value.some((el) => el.id === id)
+  // }
+
+  function isAdded(id: number, size: number): boolean {
+    return localItems.value.some((el) => el.productId === id && el.size === size)
   }
 
-  function addToLocalCart(item: CartItem) {
+  function addToLocalCart(item: CartItem, size: number) {
+    if (size) {
+      item.size = size
+    }
     localItems.value.push(item)
     const obj = unref(localItems)
 
@@ -41,8 +51,8 @@ export const useCartStore = defineStore('cart', () => {
     // console.log(`Total = ${totalPrice.value}   Vat = ${vatPrice.value}`)
   }
 
-  function removeToLocalCart(id: number) {
-    const index = localItems.value.findIndex((el) => el.productId === id)
+  function removeToLocalCart(id: number, size: number) {
+    const index = localItems.value.findIndex((el) => el.productId === id && el.size === size)
     if (index !== -1) {
       localItems.value.splice(index, 1)
     } else throw Error(`Такого элемента не найдено index = ${index}`)
@@ -51,12 +61,17 @@ export const useCartStore = defineStore('cart', () => {
     // console.log(`Total = ${totalPrice.value}   Vat = ${vatPrice.value}`)
   }
 
-  function cartLocalToggle(item: CartItem) {
-    const stateIsAdd = isAdded(item.productId)
+  function cartLocalToggle(item: CartItem, size: number) {
+    if (!size) {
+      alert(`Выберите размер `)
+      return
+    }
+
+    const stateIsAdd = isAdded(item.productId, size)
 
     if (stateIsAdd) {
-      removeToLocalCart(item.productId)
-    } else addToLocalCart(item)
+      removeToLocalCart(item.productId, size)
+    } else addToLocalCart(item, size)
   }
 
   function getLocalItems(): CartItem[] {

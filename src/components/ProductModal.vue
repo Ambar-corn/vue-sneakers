@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import BaseModal from './BaseModal.vue'
 import { useProductStore } from '../stores/productsStores'
 import { useUiStore } from '../stores/uiStores'
@@ -28,12 +28,16 @@ const isFavorite = computed(() =>
 )
 
 const isAdded = computed(() =>
-  productStore.activeProduct ? cartStore.isAdded(productStore.activeProduct.id) : false,
+  productStore.activeProduct
+    ? cartStore.isAdded(productStore.activeProduct.id, selectedSize)
+    : false,
 )
 
 const isOpenDescription = ref(false)
 
 const selectedSize = ref(null)
+
+// const objCart = ref()
 
 function closeProductModal() {
   uiStore.closeModal()
@@ -46,9 +50,21 @@ function toggleDescription() {
   isOpenDescription.value = !isOpenDescription.value
 }
 
-watch(selectedSize, () => {
-  console.log(`selectedSize = ${selectedSize.value}`)
-})
+// if (productStore.activeProduct && selectedSize.value) {
+//   objCart.value = {
+//     productId: productStore.activeProduct.id,
+//     title: productStore.activeProduct.title,
+//     price: productStore.activeProduct.price,
+//     imageUrl: productStore.activeProduct.imageUrl,
+//     size: selectedSize.value,
+//   }
+// }
+// productId: number
+// title: string
+// price: number
+// imageUrl: string[]
+// size: number
+// quantity: number
 </script>
 
 <template>
@@ -77,7 +93,17 @@ watch(selectedSize, () => {
 
         <CartButton
           class="w-[60px]"
-          @click.stop="cartStore.cartLocalToggle(productStore.activeProduct)"
+          @click.stop="
+            cartStore.cartLocalToggle(
+              {
+                productId: productStore.activeProduct.id,
+                title: productStore.activeProduct.title,
+                price: productStore.activeProduct.price,
+                imageUrl: productStore.activeProduct.imageUrl,
+              },
+              selectedSize,
+            )
+          "
           :is-added="isAdded"
         />
       </div>

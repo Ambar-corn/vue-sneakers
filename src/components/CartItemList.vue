@@ -26,7 +26,7 @@ const cartStore = useCartStore()
 <template>
   <div class="flex flex-col flex-1 gap-4" v-auto-animate>
     <CartItem
-      v-for="item in cartStore.localItems"
+      v-for="item in cartStore.getLocalItems()"
       :key="`${item.productId}-${item.size}`"
       :cart-item="item"
     />

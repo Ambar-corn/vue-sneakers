@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref, unref } from 'vue'
+import { computed, readonly, ref, shallowReadonly } from 'vue'
 import type { CartItem } from '@/types/cart'
 
 // type Item = {
@@ -40,15 +40,16 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   function addToLocalCart(item: CartItem, size: number) {
-    if (size) {
-      item.size = size
+    const cartElement = {
+      productId: item.productId,
+      title: item.title,
+      price: item.price,
+      imageUrl: item.imageUrl,
+      size: size,
     }
-    localItems.value.push(item)
-    const obj = unref(localItems)
+    localItems.value.push(cartElement)
 
-    localStorage.setItem('cart', JSON.stringify(obj))
-
-    // console.log(`Total = ${totalPrice.value}   Vat = ${vatPrice.value}`)
+    localStorage.setItem('cart', JSON.stringify(localItems.value))
   }
 
   function removeToLocalCart(id: number, size: number) {
@@ -74,10 +75,15 @@ export const useCartStore = defineStore('cart', () => {
     } else addToLocalCart(item, size)
   }
 
-  function getLocalItems(): CartItem[] {
-    const obj = unref(localItems)
-
-    return obj
+  function getLocalItems(): ReadonlyArray<{
+    readonly productId: number
+    readonly title: string
+    readonly price: number
+    readonly imageUrl: readonly string[]
+    readonly size: number
+  }> {
+    // const readonlyState =
+    return readonly(localItems.value)
   }
 
   //! async function createOrder() {  Возможно функция должна быть реализована в ordersStore или чем-то таком
@@ -108,7 +114,6 @@ export const useCartStore = defineStore('cart', () => {
   // }
 
   return {
-    localItems,
     initLocalCart,
     isAdded,
     addToLocalCart,

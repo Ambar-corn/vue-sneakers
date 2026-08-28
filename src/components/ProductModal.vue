@@ -29,7 +29,7 @@ const isFavorite = computed(() =>
 
 const isAdded = computed(() =>
   productStore.activeProduct
-    ? cartStore.isAdded(productStore.activeProduct.id, selectedSize)
+    ? cartStore.isAdded(productStore.activeProduct.id, selectedSize.value)
     : false,
 )
 
@@ -49,22 +49,6 @@ function closeProductModal() {
 function toggleDescription() {
   isOpenDescription.value = !isOpenDescription.value
 }
-
-// if (productStore.activeProduct && selectedSize.value) {
-//   objCart.value = {
-//     productId: productStore.activeProduct.id,
-//     title: productStore.activeProduct.title,
-//     price: productStore.activeProduct.price,
-//     imageUrl: productStore.activeProduct.imageUrl,
-//     size: selectedSize.value,
-//   }
-// }
-// productId: number
-// title: string
-// price: number
-// imageUrl: string[]
-// size: number
-// quantity: number
 </script>
 
 <template>

@@ -19,7 +19,7 @@ defineProps<{
       <div class="flex justify-between">
         <span class="text-white text-semibold flex-1">{{ cartItem.price }}.</span>
         <img
-          @click.stop="cartStore.removeToLocalCart(cartItem.productId)"
+          @click.stop="cartStore.removeToLocalCart(cartItem.productId, cartItem.size)"
           class="opacity-40 hover:opacity-100 duration-500 cursor-pointer"
           src="/close.svg"
           alt=""

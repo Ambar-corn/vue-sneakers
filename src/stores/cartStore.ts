@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, readonly, ref, shallowReadonly } from 'vue'
+import { computed, readonly, ref, watch } from 'vue'
 import type { CartItem } from '@/types/cart'
 
 // type Item = {
@@ -46,10 +46,11 @@ export const useCartStore = defineStore('cart', () => {
       price: item.price,
       imageUrl: item.imageUrl,
       size: size,
+      quantity: 1,
     }
     localItems.value.push(cartElement)
 
-    localStorage.setItem('cart', JSON.stringify(localItems.value))
+    // localStorage.setItem('cart', JSON.stringify(localItems.value))
   }
 
   function removeToLocalCart(id: number, size: number) {
@@ -58,7 +59,7 @@ export const useCartStore = defineStore('cart', () => {
       localItems.value.splice(index, 1)
     } else throw Error(`Такого элемента не найдено index = ${index}`)
 
-    localStorage.setItem('cart', JSON.stringify(localItems.value))
+    // localStorage.setItem('cart', JSON.stringify(localItems.value))
     // console.log(`Total = ${totalPrice.value}   Vat = ${vatPrice.value}`)
   }
 
@@ -81,6 +82,7 @@ export const useCartStore = defineStore('cart', () => {
     readonly price: number
     readonly imageUrl: readonly string[]
     readonly size: number
+    readonly quantity: number
   }> {
     // const readonlyState =
     return readonly(localItems.value)
@@ -112,6 +114,14 @@ export const useCartStore = defineStore('cart', () => {
   //     isCreating.value = false
   //   }
   // }
+
+  function saveLocalCart(): void {
+    localStorage.setItem('cart', JSON.stringify(localItems.value))
+
+    console.log(`Уотч сработал`)
+  }
+
+  watch(localItems, () => saveLocalCart(), { deep: true })
 
   return {
     initLocalCart,

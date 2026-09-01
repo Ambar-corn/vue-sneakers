@@ -4,5 +4,5 @@ export interface CartItem {
   price: number
   imageUrl: string[]
   size: number
-  // quantity: number
+  quantity: number
 }

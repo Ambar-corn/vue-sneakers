@@ -2,17 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, readonly, ref, watch } from 'vue'
 import type { CartItem } from '@/types/cart'
 
-// type Item = {
-//   id: number
-//   title: string
-//   price: number
-//   imageUrl: string
-//   description: string
-// }
-
 export const useCartStore = defineStore('cart', () => {
-  // const localCart = ref<string | null>(null)
-
   const localItems = ref<CartItem[]>([])
 
   const totalPrice = computed(() => localItems.value.reduce((acc, item) => acc + item.price, 0))
@@ -28,13 +18,6 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
-  // function isAdded(id: number): boolean {
-  //   //!старая структура
-
-  //   console.log(`id = ${id}`)
-  //   return localItems.value.some((el) => el.id === id)
-  // }
-
   function isAdded(id: number, size: number): boolean {
     return localItems.value.some((el) => el.productId === id && el.size === size)
   }
@@ -49,18 +32,13 @@ export const useCartStore = defineStore('cart', () => {
       quantity: 1,
     }
     localItems.value.push(cartElement)
-
-    // localStorage.setItem('cart', JSON.stringify(localItems.value))
   }
 
   function removeToLocalCart(id: number, size: number) {
-    const index = localItems.value.findIndex((el) => el.productId === id && el.size === size)
+    const index = findElementIndex(id, size)
     if (index !== -1) {
       localItems.value.splice(index, 1)
     } else throw Error(`Такого элемента не найдено index = ${index}`)
-
-    // localStorage.setItem('cart', JSON.stringify(localItems.value))
-    // console.log(`Total = ${totalPrice.value}   Vat = ${vatPrice.value}`)
   }
 
   function cartLocalToggle(item: CartItem, size: number) {
@@ -84,8 +62,28 @@ export const useCartStore = defineStore('cart', () => {
     readonly size: number
     readonly quantity: number
   }> {
-    // const readonlyState =
     return readonly(localItems.value)
+  }
+
+  function findElementIndex(id: number, size: number): number {
+    const index = localItems.value.findIndex((el) => el.productId === id && el.size === size)
+    return index
+  }
+
+  function increaseQuantity(id: number, size: number) {
+    const index = findElementIndex(id, size)
+    if (index !== -1) {
+      localItems.value[index].quantity++
+    } else throw Error(`Такого элемента не найдено index = ${index}`)
+  }
+
+  function decreaseQuantity(id: number, size: number) {
+    const index = findElementIndex(id, size)
+    if (index !== -1) {
+      if (localItems.value[index].quantity > 1) {
+        localItems.value[index].quantity--
+      } else removeToLocalCart(id, size)
+    } else throw Error(`Такого элемента не найдено index = ${index}`)
   }
 
   //! async function createOrder() {  Возможно функция должна быть реализована в ordersStore или чем-то таком
@@ -132,5 +130,7 @@ export const useCartStore = defineStore('cart', () => {
     getLocalItems,
     totalPrice,
     vatPrice,
+    increaseQuantity,
+    decreaseQuantity,
   }
 })

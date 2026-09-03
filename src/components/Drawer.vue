@@ -16,8 +16,6 @@ const orderId = ref(null)
 const drawerRef = ref(null)
 
 const props = defineProps({
-  // totalPrice: Number,
-  // vatPrice: Number,
   isCreatingOrder: Boolean,
   drawerOpen: Boolean,
 })
@@ -39,7 +37,6 @@ const buttonDisabled = computed(() => {
 })
 
 const { closeDrawer } = inject('cart')
-// const cartIsEmpty = computed(() => cart.value.lenght === 0)
 
 const createOrder = async () => {
   try {

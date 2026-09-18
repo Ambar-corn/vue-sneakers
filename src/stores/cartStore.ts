@@ -5,7 +5,9 @@ import type { CartItem } from '@/types/cart'
 export const useCartStore = defineStore('cart', () => {
   const localItems = ref<CartItem[]>([])
 
-  const totalPrice = computed(() => localItems.value.reduce((acc, item) => acc + item.price, 0))
+  const totalPrice = computed(() =>
+    localItems.value.reduce((acc, item) => acc + item.price * item.quantity, 0),
+  )
 
   const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
 
@@ -119,7 +121,14 @@ export const useCartStore = defineStore('cart', () => {
     console.log(`Уотч сработал`)
   }
 
+  function clearCart() {
+    localItems.value = []
+    console.log(`Корзина очищена Сэр`)
+  }
+
   watch(localItems, () => saveLocalCart(), { deep: true })
+
+  setTimeout(() => console.log(`PAPAP = ${JSON.stringify(getLocalItems())}`), 1000)
 
   return {
     initLocalCart,
@@ -132,5 +141,6 @@ export const useCartStore = defineStore('cart', () => {
     vatPrice,
     increaseQuantity,
     decreaseQuantity,
+    clearCart,
   }
 })

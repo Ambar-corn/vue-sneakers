@@ -10,8 +10,11 @@ import { useUiStore } from '../stores/uiStores'
 import { useFavoriteStore } from '@/stores/favoritesStore'
 import { useDelayedLoading } from '@/composables/useDelayedLoading'
 import { useCartStore } from '@/stores/cartStore'
+import { useOrderStore } from '@/stores/orderStore.js'
 
 const cartStore = useCartStore()
+
+const orderStore = useOrderStore()
 
 const favoriteStore = useFavoriteStore()
 
@@ -45,19 +48,6 @@ const deleteAll = async () => {
   }
 }
 
-const deleteOrders = async () => {
-  // Вспопомогательная кнопка
-  try {
-    const { data: orders } = await axios.get('https://b561fe78d0163fe1.mokky.dev/orders')
-
-    for (const item of orders) {
-      await axios.delete(`https://b561fe78d0163fe1.mokky.dev/orders/${item.id}`)
-    }
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 function openModal(item) {
   productStore.fetchProductById(item.id)
   uiStore.openProductModal()
@@ -85,7 +75,7 @@ watch(
       <button @click="deleteAll()">Сненси меня!!!</button>
     </div>
     <div class="border-8 border-red-700 bg-orange-700 rounded-md">
-      <button @click="deleteOrders()">Сненси и меня пожалуйста</button>
+      <button @click="orderStore.deleteOrders">Сненси и меня пожалуйста</button>
     </div>
     <div
       class="flex items-center gap-4"

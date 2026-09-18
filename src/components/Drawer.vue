@@ -1,17 +1,15 @@
 <script setup>
-import { ref, computed, inject } from 'vue'
-import axios from 'axios'
+import { ref, computed, inject, onMounted } from 'vue'
 import DrawerHead from './DrawerHead.vue'
 import CartItemList from './CartItemList.vue'
 import InfoBlock from './InfoBlockk.vue'
 import { useClickOutside } from '@/composables/useClickOutside'
 import { useCartStore } from '@/stores/cartStore'
+import { useOrderStore } from '@/stores/orderStore.js'
 
 const cartStore = useCartStore()
 
-const isCreating = ref(false)
-
-const orderId = ref(null)
+const orderStore = useOrderStore()
 
 const drawerRef = ref(null)
 
@@ -23,39 +21,30 @@ const props = defineProps({
 useClickOutside(drawerRef, () => {
   if (props.drawerOpen) {
     closeDrawer()
+    orderStore.resetOrderId()
   }
 })
 
 const buttonDisabled = computed(() => {
-  if (props.isCreatingOrder) {
+  if (orderStore.isCreatingOrder) {
     return true
-  } else if (props.totalPrice) {
+  } else if (cartStore.getLocalItems().length > 0) {
     return false
   } else {
     return true
   }
 })
 
-const { closeDrawer } = inject('cart')
-
-const createOrder = async () => {
+async function orderPlacement() {
   try {
-    isCreating.value = true
-
-    const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/orders', {
-      items: cart.value,
-      totalPrice: props.totalPrice.value,
-    })
-    cart.value = []
-
-    orderId.value = data.id
-    return data
-  } catch (err) {
-    console.log(err)
-  } finally {
-    isCreating.value = false
+    await orderStore.createOrder()
+    cartStore.clearCart()
+  } catch (e) {
+    throw Error(`Ошибка ${e}`)
   }
 }
+
+const { closeDrawer } = inject('cart')
 </script>
 
 <template>
@@ -69,18 +58,18 @@ const createOrder = async () => {
     >
       <DrawerHead />
 
-      <div v-if="!cartStore.totalPrice || orderId" class="flex h-full items-center">
+      <div v-if="!cartStore.totalPrice || orderStore.orderId" class="flex h-full items-center">
         <InfoBlock
-          v-if="!cartStore.totalPrice && !orderId"
+          v-if="!cartStore.totalPrice && !orderStore.orderId"
           image-url="/package-icon.png"
           title="Корзина пустая"
           description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
         />
         <InfoBlock
-          v-if="orderId"
+          v-if="orderStore.orderId"
           image-url="/order-success-icon.png"
           title="Заказ оформлен !"
-          :description="`Ваш заказ №${orderId} скоро будет передан курьерской доставке`"
+          :description="`Ваш заказ №${orderStore.orderId} скоро будет передан курьерской доставке`"
         />
       </div>
 
@@ -100,7 +89,7 @@ const createOrder = async () => {
           </div>
           <button
             :disabled="buttonDisabled"
-            @click="createOrder"
+            @click="orderPlacement()"
             class="transition bg-green-500 w-full rounded-xl py-3 disabled:bg-slate-300 hover:bg-green-600 active:bg-green-700 cursor-crosshair"
           >
             Оформить заказ

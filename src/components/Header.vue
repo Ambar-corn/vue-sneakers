@@ -1,6 +1,5 @@
 <script setup>
-import { provide, ref, watch } from 'vue'
-import { onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { useClickOutside } from '../composables/useClickOutside'
 import { useCartStore } from '@/stores/cartStore'
 

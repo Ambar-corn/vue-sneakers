@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, inject, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import DrawerHead from './DrawerHead.vue'
 import CartItemList from './CartItemList.vue'
 import InfoBlock from './InfoBlockk.vue'
@@ -13,15 +13,9 @@ const orderStore = useOrderStore()
 
 const drawerRef = ref(null)
 
-const props = defineProps({
-  isCreatingOrder: Boolean,
-  drawerOpen: Boolean,
-})
-
 useClickOutside(drawerRef, () => {
-  if (props.drawerOpen) {
-    closeDrawer()
-    orderStore.resetOrderId()
+  if (cartStore.isDrawerOpen) {
+    closeAndReset()
   }
 })
 
@@ -44,11 +38,14 @@ async function orderPlacement() {
   }
 }
 
-const { closeDrawer } = inject('cart')
+function closeAndReset() {
+  cartStore.closeDrawer()
+  orderStore.resetOrderId()
+}
 </script>
 
 <template>
-  <div>
+  <div v-show="cartStore.isDrawerOpen">
     <div
       class="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-70 transition duration-1000"
     ></div>
@@ -56,7 +53,7 @@ const { closeDrawer } = inject('cart')
       ref="drawerRef"
       class="bg-teal-600 w-2/5 h-full fixed right-0 top-0 z-50 p-10 transition duration-1000"
     >
-      <DrawerHead />
+      <DrawerHead :close-drawer="closeAndReset" />
 
       <div v-if="!cartStore.totalPrice || orderStore.orderId" class="flex h-full items-center">
         <InfoBlock

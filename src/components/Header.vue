@@ -3,13 +3,7 @@ import { ref } from 'vue'
 import { useClickOutside } from '../composables/useClickOutside'
 import { useCartStore } from '@/stores/cartStore'
 
-// defineProps({
-//   totalPrice: Number,
-// })
-
 const cartStore = useCartStore()
-
-const emit = defineEmits(['openDrawer'])
 
 const isMobile = sessionStorage.getItem('isMobile') === 'true'
 
@@ -36,8 +30,7 @@ function handleBurgerOutside(event) {
 }
 
 function onClickCart() {
-  emit('openDrawer')
-
+  cartStore.openDrawer()
   if (isBurgerOpen.value) {
     isBurgerOpen.value = false
   }
@@ -71,7 +64,7 @@ function toggleBurger() {
       </div>
     </router-link>
     <nav
-      class="flex items-center gap-10 max-lg:fixed max-lg:top-0 max-lg:-left-full max-lg:w-full max-lg:h-full max-lg:bg-black/20 max-lg:backdrop-blur-sm max-lg:transition-[left] max-lg:duration-300 max-lg:ease-linear max-lg:overflow-auto max-lg:opacity-80 z-10 max-lg:items-start max-lg:fixed max-lg:mt-[115px] max-lg:flex-col max-lg:px-10 max-lg:py-5"
+      class="flex items-center gap-10 max-lg:top-0 max-lg:-left-full max-lg:w-full max-lg:h-full max-lg:bg-black/20 max-lg:backdrop-blur-sm max-lg:transition-[left] max-lg:duration-300 max-lg:ease-linear max-lg:overflow-auto max-lg:opacity-80 z-10 max-lg:items-start max-lg:fixed max-lg:mt-[115px] max-lg:flex-col max-lg:px-10 max-lg:py-5"
       :class="{ 'max-lg:left-0 ': isBurgerOpen }"
     >
       <ul>

@@ -13,6 +13,8 @@ export const useCartStore = defineStore('cart', () => {
 
   const isCreating = ref(false)
 
+  const isDrawerOpen = ref(false)
+
   function initLocalCart() {
     const localCart = localStorage.getItem('cart')
     if (localCart) {
@@ -88,47 +90,24 @@ export const useCartStore = defineStore('cart', () => {
     } else throw Error(`Такого элемента не найдено index = ${index}`)
   }
 
-  //! async function createOrder() {  Возможно функция должна быть реализована в ordersStore или чем-то таком
-  //   const obj = {
-  //     items: localItems.value,
-  //     totalPrice:totalPrice.value
-  //   }
-  //   const objTemp = {
-  //     sneaker_id: obj.sneaker_id,
-  //     temp_id: crypto.randomUUID(),
-  //   }
-  //   try {
-  //     isCreating.value = true
-
-  //     const { data } = await axios.post('https://b561fe78d0163fe1.mokky.dev/orders', {
-  //       items: cart.value,
-  //       totalPrice: props.totalPrice.value,
-  //     })
-  //     cart.value = []
-
-  //     orderId.value = data.id
-  //     return data
-  //   } catch (err) {
-  //     console.log(err)
-  //   } finally {
-  //     isCreating.value = false
-  //   }
-  // }
-
   function saveLocalCart(): void {
     localStorage.setItem('cart', JSON.stringify(localItems.value))
-
-    console.log(`Уотч сработал`)
   }
 
   function clearCart() {
     localItems.value = []
-    console.log(`Корзина очищена Сэр`)
   }
 
   watch(localItems, () => saveLocalCart(), { deep: true })
 
-  setTimeout(() => console.log(`PAPAP = ${JSON.stringify(getLocalItems())}`), 1000)
+  function openDrawer(): void {
+    isDrawerOpen.value = true
+    document.body.classList.add('overflow-hidden')
+  }
+  function closeDrawer(): void {
+    isDrawerOpen.value = false
+    document.body.classList.remove('overflow-hidden')
+  }
 
   return {
     initLocalCart,
@@ -142,5 +121,8 @@ export const useCartStore = defineStore('cart', () => {
     increaseQuantity,
     decreaseQuantity,
     clearCart,
+    isDrawerOpen,
+    openDrawer,
+    closeDrawer,
   }
 })

@@ -1,13 +1,13 @@
-<script setup>
-import { inject } from 'vue'
-
-const { closeDrawer } = inject('cart')
+<script setup lang="ts">
+defineProps<{
+  closeDrawer: () => void
+}>()
 </script>
 
 <template>
   <div class="flex items-center gap-5 mb-8">
     <svg
-      @click="closeDrawer"
+      @click="closeDrawer()"
       class="opacity-30 cursor-pointer rotate-180 hover:opacity-100 duration-300 hover:-translate-x-1"
       width="16"
       height="14"

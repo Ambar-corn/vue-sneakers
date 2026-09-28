@@ -33,21 +33,15 @@ const isAdded = computed(() =>
     : false,
 )
 
-const isOpenDescription = ref(false)
-
 const selectedSize = ref(null)
 
-// const objCart = ref()
-
 function closeProductModal() {
-  uiStore.closeModal()
-  productStore.clearActiveProduct()
-  document.body.classList.remove('overflow-hidden')
-  selectedSize.value = null
-}
-
-function toggleDescription() {
-  isOpenDescription.value = !isOpenDescription.value
+  if (uiStore.isProductModalOpen) {
+    uiStore.closeModal()
+    productStore.clearActiveProduct()
+    document.body.classList.remove('overflow-hidden')
+    selectedSize.value = null
+  }
 }
 </script>
 

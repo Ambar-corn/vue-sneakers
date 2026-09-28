@@ -30,7 +30,7 @@ defineProps<{
       />
     </button>
     <div class="flex items-center duration-500 absolute right-2 bottom-4 select-none">
-      <button @click="cartStore.decreaseQuantity(cartItem.productId, cartItem.size)">
+      <button @click.stop="cartStore.decreaseQuantity(cartItem.productId, cartItem.size)">
         <IconMinus class="size-7 text-white hover:text-black" />
       </button>
 

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import DrawerHead from './DrawerHead.vue'
 import CartItemList from './CartItemList.vue'
@@ -6,12 +6,13 @@ import InfoBlock from './InfoBlockk.vue'
 import { useClickOutside } from '@/composables/useClickOutside'
 import { useCartStore } from '@/stores/cartStore'
 import { useOrderStore } from '@/stores/orderStore.js'
+import { useEscapePressed } from '@/composables/useEscapePressed.js'
 
 const cartStore = useCartStore()
 
 const orderStore = useOrderStore()
 
-const drawerRef = ref(null)
+const drawerRef = ref<HTMLElement | null>(null)
 
 useClickOutside(drawerRef, () => {
   if (cartStore.isDrawerOpen) {
@@ -19,15 +20,18 @@ useClickOutside(drawerRef, () => {
   }
 })
 
-const buttonDisabled = computed(() => {
-  if (orderStore.isCreatingOrder) {
-    return true
-  } else if (cartStore.getLocalItems().length > 0) {
-    return false
-  } else {
-    return true
+useEscapePressed(() => {
+  if (cartStore.isDrawerOpen) {
+    closeAndReset()
   }
 })
+const buttonDisabled = computed(() => {
+  return orderStore.isCreatingOrder || cartStore.getLocalItems().length === 0
+})
+
+const isCartEmpty = computed(() => cartStore.getLocalItems().length === 0)
+
+const isOrderCreated = computed(() => orderStore.orderId !== null)
 
 async function orderPlacement() {
   try {
@@ -55,18 +59,19 @@ function closeAndReset() {
     >
       <DrawerHead :close-drawer="closeAndReset" />
 
-      <div v-if="!cartStore.totalPrice || orderStore.orderId" class="flex h-full items-center">
+      <div v-if="isCartEmpty || isOrderCreated" class="flex h-full items-center">
         <InfoBlock
-          v-if="!cartStore.totalPrice && !orderStore.orderId"
-          image-url="/package-icon.png"
-          title="Корзина пустая"
-          description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
-        />
-        <InfoBlock
-          v-if="orderStore.orderId"
+          v-if="isOrderCreated"
           image-url="/order-success-icon.png"
           title="Заказ оформлен !"
           :description="`Ваш заказ №${orderStore.orderId} скоро будет передан курьерской доставке`"
+        />
+
+        <InfoBlock
+          v-else
+          image-url="/package-icon.png"
+          title="Корзина пустая"
+          description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
         />
       </div>
 

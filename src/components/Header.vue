@@ -26,7 +26,6 @@ function handleBurgerOutside(event) {
   if (isBurgerOpen.value && !isProfileOpen.value && !profileRef.value.contains(event.target)) {
     isBurgerOpen.value = false
     document.body.classList.remove('overflow-hidden')
-    console.log(`1`)
   }
 }
 
@@ -49,7 +48,6 @@ function toggleBurger() {
     document.body.classList.add('overflow-hidden')
   } else {
     document.body.classList.remove('overflow-hidden')
-    console.log(`2`)
   }
 }
 </script>

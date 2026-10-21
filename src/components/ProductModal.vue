@@ -10,7 +10,7 @@ import { useDelayedLoading } from '@/composables/useDelayedLoading'
 import CartButton from '@/components/ui/CartButton.vue'
 import FavoriteButton from '@/components/ui/FavoriteButton.vue'
 import ImageSlider from './ImageSlider.vue'
-import AccordionList from '@/playground/AccordionList.vue'
+import AccordionList from './AccordionList.vue'
 
 const favoriteStore = useFavoriteStore()
 const cartStore = useCartStore()

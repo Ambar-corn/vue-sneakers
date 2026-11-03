@@ -45,20 +45,24 @@ async function handleCreateOrder() {
 function closeAndReset() {
   cartStore.closeDrawer()
   orderStore.resetOrderId()
+  drawerRef.value?.scrollTo({ top: 0 })
 }
 </script>
 
 <template>
   <div>
-    <div
-      v-show="cartStore.isDrawerOpen"
-      class="fixed top-0 left-0 h-full w-full bg-black z-10 opacity-70 transition duration-1000"
-    ></div>
+    <Transition name="overflow">
+      <div
+        v-show="cartStore.isDrawerOpen"
+        class="fixed top-0 left-0 h-full w-full bg-black/20 backdrop-blur-sm z-10 opacity-80 transition duration-1000"
+      ></div>
+    </Transition>
+
     <Transition name="drawer">
       <div
         v-show="cartStore.isDrawerOpen"
         ref="drawerRef"
-        class="bg-teal-600 w-2/5 h-full fixed right-0 top-0 z-50 p-10 transition duration-1000"
+        class="bg-teal-600 w-2/5 h-full fixed right-0 top-0 z-50 p-10 overflow-y-auto"
       >
         <DrawerHead :close-drawer="closeAndReset" />
 
@@ -110,13 +114,22 @@ function closeAndReset() {
 .drawer-enter-active,
 .drawer-leave-active {
   transition:
-    transform 0.7s,
-    opacity 0.7s;
+    transform 0.5s ease-out,
+    opacity 0.5s;
 }
 
+.overflow-enter-active,
+.overflow-leave-active {
+  transition:
+    transform 0.5s ease-out,
+    opacity 0.5s;
+}
+
+.overflow-enter-from,
+.overflow-leave-to,
 .drawer-enter-from,
 .drawer-leave-to {
-  transform: translateX(400px);
+  transform: translateX(100%);
   opacity: 0;
 }
 </style>

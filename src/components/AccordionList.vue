@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import AccordionItem from '../components/AccordionItem.vue'
+import AccordionItem from './AccordionItem.vue'
 
 type AccordionItemData = {
   title: string

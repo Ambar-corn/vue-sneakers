@@ -40,6 +40,7 @@ function selectSize(index: number, item: string) {
         </div>
 
         <svg
+          class="transition-transform duration-300 ease-in-out"
           :class="{
             'rotate-180': isOpen,
           }"

@@ -51,10 +51,10 @@ function closeAndReset() {
 
 <template>
   <div>
-    <Transition name="overflow">
+    <Transition name="overflow" type="animation">
       <div
         v-show="cartStore.isDrawerOpen"
-        class="fixed top-0 left-0 h-full w-full bg-black/20 backdrop-blur-sm z-10 opacity-80 transition duration-1000"
+        class="fixed top-0 left-0 h-full w-full bg-black/20 backdrop-blur-sm z-10 opacity-80"
       ></div>
     </Transition>
 
@@ -118,18 +118,29 @@ function closeAndReset() {
     opacity 0.5s;
 }
 
-.overflow-enter-active,
-.overflow-leave-active {
-  transition:
-    transform 0.5s ease-out,
-    opacity 0.5s;
+.overflow-enter-active {
+  animation: overlay-fade 0.5s;
 }
 
-.overflow-enter-from,
-.overflow-leave-to,
+.overflow-leave-active {
+  animation: overlay-fade 0.5s reverse;
+}
+
 .drawer-enter-from,
 .drawer-leave-to {
   transform: translateX(100%);
   opacity: 0;
+}
+
+@keyframes overlay-fade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>

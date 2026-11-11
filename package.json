@@ -14,7 +14,6 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@formkit/auto-animate": "^0.10.0",
     "axios": "^1.11.0",
     "lodash.debounce": "^4.0.8",
     "pinia": "^3.0.4",

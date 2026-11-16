@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import DrawerHead from './DrawerHead.vue'
 import CartItemList from './CartItemList.vue'
 import InfoBlock from './InfoBlockk.vue'
@@ -33,6 +33,8 @@ const isCartEmpty = computed(() => cartStore.getLocalItems().length === 0)
 
 const isOrderCreated = computed(() => orderStore.orderId !== null)
 
+const showEmptyState = ref(isCartEmpty.value)
+
 async function handleCreateOrder() {
   try {
     await orderStore.createOrder()
@@ -47,6 +49,20 @@ function closeAndReset() {
   orderStore.resetOrderId()
   drawerRef.value?.scrollTo({ top: 0 })
 }
+
+function handleLeavesFinished() {
+  console.log(`sdfs`)
+  if (isCartEmpty.value) {
+    showEmptyState.value = true
+  }
+}
+watch(isCartEmpty, (empty) => {
+  if (!empty) {
+    showEmptyState.value = false
+  }
+})
+
+watch(showEmptyState, () => console.log(`showEmpty = ${showEmptyState.value}`))
 </script>
 
 <template>
@@ -66,7 +82,7 @@ function closeAndReset() {
       >
         <DrawerHead :close-drawer="closeAndReset" />
 
-        <div v-if="isCartEmpty || isOrderCreated" class="flex h-full items-center">
+        <div v-if="isOrderCreated || showEmptyState" class="flex h-full items-center">
           <InfoBlock
             v-if="isOrderCreated"
             image-url="/order-success-icon.png"
@@ -75,17 +91,16 @@ function closeAndReset() {
           />
 
           <InfoBlock
-            v-else
+            v-else-if="showEmptyState"
             image-url="/package-icon.png"
             title="Корзина пустая"
             description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
           />
         </div>
-
         <div v-else>
-          <CartItemList />
+          <CartItemList @leaves-finished="handleLeavesFinished" />
 
-          <div class="flex flex-col gap-4 my-7">
+          <div class="flex flex-col gap-4 my-7 transition duration-[1.5s]">
             <div class="flex gap-2">
               <span>Итого:</span>
               <div class="flex-1 border-b border-dashed"></div>

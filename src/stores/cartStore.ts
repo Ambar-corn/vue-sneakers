@@ -109,6 +109,222 @@ export const useCartStore = defineStore('cart', () => {
     document.body.classList.remove('overflow-hidden')
   }
 
+  /**
+   * !Начало вспомогательного блока для добавления товаров
+   */
+
+  const productsN = [
+    {
+      productId: 2,
+      title: 'Мужские Кроссовки Reebok ZIGNITION',
+      price: 15600,
+      imageUrl: [
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-1.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-2.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-3.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-4.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-5.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-6.png',
+      ],
+      size: 43.5,
+      quantity: 1,
+    },
+    {
+      productId: 2,
+      title: 'Мужские Кроссовки Reebok ZIGNITION',
+      price: 15600,
+      imageUrl: [
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-1.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-2.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-3.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-4.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-5.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-6.png',
+      ],
+      size: 43,
+      quantity: 1,
+    },
+    {
+      productId: 2,
+      title: 'Мужские Кроссовки Reebok ZIGNITION',
+      price: 15600,
+      imageUrl: [
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-1.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-2.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-3.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-4.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-5.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-6.png',
+      ],
+      size: 44,
+      quantity: 1,
+    },
+    {
+      productId: 2,
+      title: 'Мужские Кроссовки Reebok ZIGNITION',
+      price: 15600,
+      imageUrl: [
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-1.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-2.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-3.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-4.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-5.png',
+        '/sneakers/Reebok ZIGNITION/Reebok ZIGNITION-6.png',
+      ],
+      size: 42.5,
+      quantity: 1,
+    },
+    {
+      productId: 1,
+      title: 'Мужские Кроссовки Nike Blazer Mid Suede',
+      price: 12999,
+      imageUrl: [
+        '/sneakers/sneakers-1/sneakers-1-1.png',
+        '/sneakers/sneakers-1/sneakers-1-2.png',
+        '/sneakers/sneakers-1/sneakers-1-3.png',
+        '/sneakers/sneakers-1/sneakers-1-4.png',
+        '/sneakers/sneakers-1/sneakers-1-5.png',
+        '/sneakers/sneakers-1/sneakers-1-6.png',
+      ],
+      size: 39,
+      quantity: 1,
+    },
+    {
+      productId: 3,
+      title: 'Мужские Кроссовки Reebok ZIG KINETICA',
+      price: 8499,
+      imageUrl: [
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-1.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-2.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-3.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-4.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-5.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-6.png',
+      ],
+      size: 39.5,
+      quantity: 1,
+    },
+    {
+      productId: 3,
+      title: 'Мужские Кроссовки Reebok ZIG KINETICA',
+      price: 8499,
+      imageUrl: [
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-1.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-2.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-3.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-4.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-5.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-6.png',
+      ],
+      size: 42.5,
+      quantity: 1,
+    },
+    {
+      productId: 3,
+      title: 'Мужские Кроссовки Reebok ZIG KINETICA',
+      price: 8499,
+      imageUrl: [
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-1.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-2.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-3.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-4.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-5.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-6.png',
+      ],
+      size: 43.5,
+      quantity: 1,
+    },
+    {
+      productId: 3,
+      title: 'Мужские Кроссовки Reebok ZIG KINETICA',
+      price: 8499,
+      imageUrl: [
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-1.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-2.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-3.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-4.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-5.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-6.png',
+      ],
+      size: 44,
+      quantity: 1,
+    },
+    {
+      productId: 3,
+      title: 'Мужские Кроссовки Reebok ZIG KINETICA',
+      price: 8499,
+      imageUrl: [
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-1.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-2.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-3.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-4.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-5.png',
+        '/sneakers/Reebok ZIG KINETICA 2.5 EDGE WINTER/Reebok ZIG KINETICA 2.5 EDGE WINTER-6.png',
+      ],
+      size: 39,
+      quantity: 1,
+    },
+    {
+      productId: 4,
+      title: 'Кроссовки Reebok VERSE',
+      price: 7800,
+      imageUrl: [
+        '/sneakers/Reebok VERSE/Reebok VERSE-1.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-2.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-3.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-4.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-5.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-6.png',
+      ],
+      size: 43,
+      quantity: 1,
+    },
+    {
+      productId: 4,
+      title: 'Кроссовки Reebok VERSE',
+      price: 7800,
+      imageUrl: [
+        '/sneakers/Reebok VERSE/Reebok VERSE-1.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-2.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-3.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-4.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-5.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-6.png',
+      ],
+      size: 42.5,
+      quantity: 1,
+    },
+    {
+      productId: 4,
+      title: 'Кроссовки Reebok VERSE',
+      price: 7800,
+      imageUrl: [
+        '/sneakers/Reebok VERSE/Reebok VERSE-1.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-2.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-3.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-4.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-5.png',
+        '/sneakers/Reebok VERSE/Reebok VERSE-6.png',
+      ],
+      size: 43.5,
+      quantity: 1,
+    },
+  ]
+
+  function addProdcts() {
+    productsN.forEach((item) => addToLocalCart(item, item.size))
+  }
+
+  function removeProdcts() {
+    setTimeout(
+      () => productsN.forEach((item) => removeToLocalCart(item.productId, item.size)),
+      1500,
+    )
+  }
+
+  /**
+   * !Конец вспомогательного блока для добавления товаров
+   */
   return {
     initLocalCart,
     isAdded,
@@ -124,5 +340,7 @@ export const useCartStore = defineStore('cart', () => {
     isDrawerOpen,
     openDrawer,
     closeDrawer,
+    addProdcts,
+    removeProdcts,
   }
 })

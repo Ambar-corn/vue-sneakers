@@ -82,7 +82,10 @@ watch(showEmptyState, () => console.log(`showEmpty = ${showEmptyState.value}`))
       >
         <DrawerHead :close-drawer="closeAndReset" />
 
-        <div v-if="isOrderCreated || showEmptyState" class="flex h-full items-center">
+        <div
+          v-if="isOrderCreated || showEmptyState"
+          class="flex h-full items-center overflow-hidden"
+        >
           <InfoBlock
             v-if="isOrderCreated"
             image-url="/order-success-icon.png"
@@ -92,15 +95,16 @@ watch(showEmptyState, () => console.log(`showEmpty = ${showEmptyState.value}`))
 
           <InfoBlock
             v-else-if="showEmptyState"
+            class="overflow-y-auto"
             image-url="/package-icon.png"
             title="Корзина пустая"
             description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
           />
         </div>
-        <div v-else>
+        <TransitionGroup v-else-if="!isCartEmpty" tag="div" name="summary">
           <CartItemList @leaves-finished="handleLeavesFinished" />
 
-          <div class="flex flex-col gap-4 my-7 transition duration-[1.5s]">
+          <div class="flex flex-col gap-4 my-7">
             <div class="flex gap-2">
               <span>Итого:</span>
               <div class="flex-1 border-b border-dashed"></div>
@@ -119,7 +123,7 @@ watch(showEmptyState, () => console.log(`showEmpty = ${showEmptyState.value}`))
               Оформить заказ
             </button>
           </div>
-        </div>
+        </TransitionGroup>
       </div>
     </Transition>
   </div>
@@ -145,6 +149,10 @@ watch(showEmptyState, () => console.log(`showEmpty = ${showEmptyState.value}`))
 .drawer-leave-to {
   transform: translateX(100%);
   opacity: 0;
+}
+
+.summary-move {
+  transition: all 1.5s;
 }
 
 @keyframes overlay-fade {

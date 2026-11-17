@@ -32,7 +32,7 @@ function onAfterLeave() {
   <TransitionGroup
     name="list"
     tag="div"
-    class="flex flex-col flex-1 gap-4"
+    class="relative flex flex-col flex-1 gap-4"
     @before-leave="onBeforeLeave"
     @after-leave="onAfterLeave"
   >
@@ -58,6 +58,7 @@ function onAfterLeave() {
 }
 
 .list-leave-active {
-  position: absolute;
+  /* position: absolute; */
+  width: 100%;
 }
 </style>

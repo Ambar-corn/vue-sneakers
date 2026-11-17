@@ -66,6 +66,12 @@ watch(
   },
   { deep: true },
 )
+
+// const deled = () =>
+//   setTimeout(() => {
+//     cartStore.removeProdcts
+//     console.log(`Выполнено сэр `)
+//   }, 1500)
 </script>
 
 <template>
@@ -76,6 +82,12 @@ watch(
     </div>
     <div class="border-8 border-red-700 bg-orange-700 rounded-md">
       <button @click="orderStore.deleteOrders">Сненси и меня пожалуйста</button>
+    </div>
+    <div class="border-8 border-red-700 bg-orange-700 rounded-md">
+      <button @click="cartStore.addProdcts">Добавься</button>
+    </div>
+    <div class="border-8 border-red-700 bg-orange-700 rounded-md">
+      <button @click="cartStore.removeProdcts">Удалися</button>
     </div>
     <div
       class="flex items-center gap-4"
